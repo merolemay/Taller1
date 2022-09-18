@@ -22,6 +22,7 @@ public class Animal {
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
+    @Column(unique = true)
     private String name;
     private AnimalGender sex;
     private int age;

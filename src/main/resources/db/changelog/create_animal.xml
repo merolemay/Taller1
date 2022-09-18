@@ -9,26 +9,14 @@
         <sql>CREATE TYPE animal_sex AS ENUM ('F','M')</sql>
         <createTable tableName="animal">
             <column name="id" type="UUID">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true"/>
             </column>
-            <column name="name" type="varchar(120)">
-                <constraints unique="true" nullable="false"/>
-            </column>
-            <column name="sex" type="animal_sex">
-                <constraints nullable="false"/>
-            </column>
-            <column name="age" type="number">
-                <constraints nullable="false"/>
-            </column>
-            <column name="height" type="double">
-                <constraints nullable="false"/>
-            </column>
-            <column name="weight" type="double">
-                <constraints nullable="false"/>
-            </column>
-            <column name="arrivalDate" type="time">
-                <constraints nullable="false"/>
-            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="sex" type="animal_sex"/>
+            <column name="age" type="number"/>
+            <column name="height" type="double"/>
+            <column name="weight" type="double"/>
+            <column name="arrivalDate" type="time"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
