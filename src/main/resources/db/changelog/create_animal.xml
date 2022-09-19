@@ -5,16 +5,16 @@
     <!-- Refer to https://docs.liquibase.com/change-types/community/create-table.html -->
 
     <changeSet id="39726ba4-19c3-4282-8074-d67c5e656e53" author="diego.hidalgo" failOnError="true">
-        <createTable tableName="parent">
-            <column name="id" type="varchar(255)" />
-            <column name="name" type="varchar(255)">
+        <createTable tableName="animal">
+            <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" />
             </column>
+            <column name="name" type="varchar(255)" />
             <column name="maleParentName" type="varchar(255)">
-                <constraints references="parent(name)" />
+                <constraints references="animal(id)" />
             </column>
             <column name="femaleParentName" type="varchar(255)">
-                <constraints references="parent(name)" />
+                <constraints references="animal(id)" />
             </column>
             <column name="sex" type="varchar(255)" />
             <column name="weight" type="varchar(255)" />
