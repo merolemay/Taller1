@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!-- Refer to https://docs.liquibase.com/change-types/community/create-table.html -->
+
+    <changeSet id="39726ba4-19c3-4282-8074-d67c5e656e53" author="diego.hidalgo" failOnError="true">
+        <createTable tableName="parent">
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="id" type="varchar(255)" />
+            <column name="maleParentName" type="varchar(255)">
+                <constraints references="parent(name)" />
+            </column>
+            <column name="femaleParentName" type="varchar(255)">
+                <constraints references="parent(name)" />
+            </column>
+            <column name="sex" type="varchar(255)" />
+            <column name="weight" type="varchar(255)" />
+            <column name="age" type="integer" />
+            <column name="height" type="varchar(255)" />
+            <column name="arrival_date" type="date" />
+        </createTable>
+
+        <createTable tableName="ParentChild">
+            <column name="maleParentName" type="varchar(255)">
+                <constraints references="parent(name)" />
+            </column>
+            <column name="femaleParentName" type="varchar(255)">
+                <constraints references="parent(name)" />
+            </column>
+            <column name="childName" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true" references="parent(name)" />
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
