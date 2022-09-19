@@ -1,13 +1,20 @@
 package co.edu.icesi.zoo.api;
 
-import co.edu.icesi.zoo.model.Animal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import co.edu.icesi.zoo.dto.AnimalDTO;
+import co.edu.icesi.zoo.dto.AnimalWithParentsDTO;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/animals")
 public interface AnimalAPI {
 
-    @PostMapping()
-    Animal createAnimal(@RequestBody Animal animal);
+    @PostMapping
+    AnimalDTO createAnimal(@RequestBody AnimalDTO animalDTO);
+
+    @GetMapping("/{animalName}")
+    AnimalWithParentsDTO getAnimal(@PathVariable String animalName);
+
+    @GetMapping
+    List<AnimalDTO> getAnimals();
 }

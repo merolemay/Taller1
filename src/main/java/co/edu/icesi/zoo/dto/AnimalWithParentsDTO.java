@@ -10,7 +10,7 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnimalDTO {
+public class AnimalWithParentsDTO {
 
     private String name;
     private AnimalGender sex;
@@ -18,6 +18,6 @@ public class AnimalDTO {
     private double height;
     private double weight;
     private Date arrivalDate;
-    private String father;
-    private String mother;
+    private AnimalDTO father;
+    private AnimalDTO mother;
 }
