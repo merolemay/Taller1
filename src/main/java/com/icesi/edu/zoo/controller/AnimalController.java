@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -19,17 +20,17 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public AnimalDTO getAnimal(UUID animalId) {
-        return null;
+        return animalMapper.fromAnimal(animalService.getAnimal(animalId));
     }
 
     @Override
     public AnimalDTO createAnimal(AnimalDTO animalDTO) {
-        return null;
+        return animalMapper.fromAnimal(animalService.createAnimal(animalMapper.fromDTO(animalDTO)));
     }
 
     @Override
     public List<AnimalDTO> getAnimals() {
-        return null;
+        return animalService.getAnimals().stream().map(animalMapper::fromAnimal).collect(Collectors.toList());
     }
 
 }

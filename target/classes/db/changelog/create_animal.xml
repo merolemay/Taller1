@@ -5,26 +5,23 @@
     <!-- Refer to https://docs.liquibase.com/change-types/community/create-table.html -->
 
     <changeSet id="39726ba4-19c3-4282-8074-d67c5e656e53" author="diego.hidalgo" failOnError="true">
-        <createTable tableName="parent">
-            <column name="name" type="varchar(255)">
+        <createTable tableName="animal">
+            <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="id" type="varchar(255)" />
+            <column name="name" type="varchar(255)" />
+            <column name="maleParentId" type="UUID" />
+            <column name="femaleParentId" type="UUID" />
             <column name="sex" type="varchar(255)" />
             <column name="weight" type="varchar(255)" />
             <column name="age" type="integer" />
             <column name="height" type="varchar(255)" />
             <column name="arrival_date" type="date" />
         </createTable>
-        <createTable tableName="ParentChild">
-            <column name="maleParentName" type="varchar(255)">
-                <constraints references="parent(name)" />
-            </column>
-            <column name="femaleParentName" type="varchar(255)">
-                <constraints references="parent(name)"/>
-            </column>
-            <column name="childName" type="varchar"/>
-        </createTable>
+        <addForeignKeyConstraint baseTableName="animal" baseColumnNames="maleParentId" constraintName="male_fk" referencedTableName="animal"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="animal" baseColumnNames="femaleParentId" constraintName="female_fk" referencedTableName="animal"
+                                 referencedColumnNames="id" />
     </changeSet>
 
 </databaseChangeLog>

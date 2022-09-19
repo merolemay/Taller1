@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @AllArgsConstructor
 @Service
@@ -19,17 +21,17 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal getAnimal(UUID animalId) {
-        return null;
+        return animalRepository.findById(animalId).orElse(null);
     }
 
     @Override
     public Animal createAnimal(Animal animalDTO) {
-        return null;
+        return animalRepository.save(animalDTO);
     }
 
     @Override
     public List<Animal> getAnimals() {
-        return null;
+        return StreamSupport.stream(animalRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
 }

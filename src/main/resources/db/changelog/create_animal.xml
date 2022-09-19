@@ -10,30 +10,18 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="name" type="varchar(255)" />
-            <column name="maleParentName" type="varchar(255)">
-                <constraints references="animal(id)" />
-            </column>
-            <column name="femaleParentName" type="varchar(255)">
-                <constraints references="animal(id)" />
-            </column>
+            <column name="maleParentId" type="UUID" />
+            <column name="femaleParentId" type="UUID" />
             <column name="sex" type="varchar(255)" />
             <column name="weight" type="varchar(255)" />
             <column name="age" type="integer" />
             <column name="height" type="varchar(255)" />
             <column name="arrival_date" type="date" />
         </createTable>
-
-        <createTable tableName="ParentChild">
-            <column name="maleParentName" type="varchar(255)">
-                <constraints references="parent(name)" />
-            </column>
-            <column name="femaleParentName" type="varchar(255)">
-                <constraints references="parent(name)" />
-            </column>
-            <column name="childName" type="varchar(255)">
-                <constraints nullable="false" primaryKey="true" references="parent(name)" />
-            </column>
-        </createTable>
+        <addForeignKeyConstraint baseTableName="animal" baseColumnNames="maleParentId" constraintName="male_fk" referencedTableName="animal"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="animal" baseColumnNames="femaleParentId" constraintName="female_fk" referencedTableName="animal"
+                                 referencedColumnNames="id" />
     </changeSet>
 
 </databaseChangeLog>
