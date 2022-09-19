@@ -21,10 +21,10 @@ public class AnimalDTO {
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private UUID maleParent;
+    private UUID maleParentId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private UUID femaleParent;
+    private UUID femaleParentId;
 
     private boolean sex;
 

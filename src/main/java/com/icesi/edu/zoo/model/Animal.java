@@ -27,10 +27,10 @@ public class Animal {
     private String name;
 
     @Type(type="org.hibernate.type.UUIDCharType")
-    private UUID maleParent;
+    private UUID maleParentId;
 
     @Type(type="org.hibernate.type.UUIDCharType")
-    private UUID femaleParent;
+    private UUID femaleParentId;
 
     private boolean sex;
 
