@@ -3,33 +3,36 @@ package com.icesi.edu.zoo.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnimalDTO {
 
-    private String id;
+    private UUID id;
 
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String maleParent;
+    private UUID maleParent;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String femaleParent;
+    private UUID femaleParent;
 
-    private String sex;
+    private boolean sex;
 
-    private String weight;
+    private double weight;
 
     private int age;
 
-    private String height;
+    private double height;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date arrivalDate;
