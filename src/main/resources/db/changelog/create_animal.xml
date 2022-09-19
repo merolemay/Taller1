@@ -11,12 +11,30 @@
             <column name="id" type="UUID">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="name" type="varchar(255)"/>
-            <column name="sex" type="animal_sex"/>
-            <column name="age" type="number"/>
-            <column name="height" type="double"/>
-            <column name="weight" type="double"/>
-            <column name="arrivalDate" type="time"/>
+            <column name="name" type="varchar(120)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_animal_name"/>
+            </column>
+            <column name="sex" type="animal_sex">
+                <constraints nullable="false"/>
+            </column>
+            <column name="age" type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="height" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="arrival_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="father_id" type="UUID">
+                <constraints nullable="true" foreignKeyName="fk_father_id" references="animal(id)"/>
+            </column>
+            <column name="mother_id" type="UUID">
+                <constraints nullable="true" foreignKeyName="fk_mother_id" references="animal(id)"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>
