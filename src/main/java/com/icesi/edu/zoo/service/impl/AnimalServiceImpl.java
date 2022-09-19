@@ -1,6 +1,7 @@
 package com.icesi.edu.zoo.service.impl;
 
 import com.icesi.edu.zoo.model.Animal;
+import com.icesi.edu.zoo.repository.AnimalRepository;
 import com.icesi.edu.zoo.service.AnimalService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -13,6 +14,8 @@ import java.util.UUID;
 @Service
 @Primary
 public class AnimalServiceImpl implements AnimalService {
+
+    private final AnimalRepository animalRepository;
 
     @Override
     public Animal getAnimal(UUID animalId) {
