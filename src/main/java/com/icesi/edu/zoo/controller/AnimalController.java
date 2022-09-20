@@ -18,6 +18,14 @@ public class AnimalController implements AnimalAPI {
     private final AnimalService animalService;
     private final AnimalMapper animalMapper;
 
+    private final String NAME_REGEX = "";
+    private final double MIN_MALE_WEIGHT = 11;
+    private final double MAX_MALE_WEIGHT = 15;
+    private final double MIN_FEMALE_WEIGHT = 8;
+    private final double MAX_FEMALE_WEIGHT = 11;
+    private final double MIN_ADULT_HEIGHT = 100;
+    private final double MAX_ADULT_HEIGHT = 130;
+
     @Override
     public AnimalDTO getAnimal(UUID animalId) {
         return animalMapper.fromAnimal(animalService.getAnimal(animalId));
@@ -25,8 +33,30 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public AnimalDTO createAnimal(AnimalDTO animalDTO) {
+        if(checkNotNull(animalDTO) && nameIsValid(animalDTO) && )
         return animalMapper.fromAnimal(animalService.createAnimal(animalMapper.fromDTO(animalDTO)));
     }
+
+    private boolean checkNotNull(AnimalDTO animalDTO) {
+        return animalDTO != null;
+    }
+
+    private boolean nameIsValid(String name) {
+        return name != null && name.matches(NAME_REGEX);
+    }
+
+    private boolean checkCharacteristics(AnimalDTO animalDTO) {
+
+    }
+
+
+    private boolean inClosedRange(double num, double min, double max) {
+        return (num >= min) && (num <= max);
+    }
+
+
+
+
 
     @Override
     public List<AnimalDTO> getAnimals() {
