@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 public interface AnimalMapper {
 
     Animal fromDTOToAnimal(AnimalDTO animalDTO);
+
     AnimalDTO fromAnimalToDTO(Animal animal);
+
     AnimalWithParentsDTO fromAnimalToAnimalWithParentsDTO(Animal animal);
 }

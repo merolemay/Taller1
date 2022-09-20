@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-
-    <!-- Refer to https://docs.liquibase.com/change-types/community/create-table.html -->
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="33d4e9bc-7210-47c3-9617-c56ab7c0750d" author="david.montaño" failOnError="true">
-        <sql>CREATE TYPE animal_sex AS ENUM ('F','M')</sql>
         <createTable tableName="animal">
             <column name="id" type="UUID">
                 <constraints primaryKey="true"/>
@@ -14,10 +11,10 @@
             <column name="name" type="varchar(120)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="uk_animal_name"/>
             </column>
-            <column name="sex" type="animal_sex">
+            <column name="sex" type="ENUM('F', 'M')">
                 <constraints nullable="false"/>
             </column>
-            <column name="age" type="number">
+            <column name="age" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="height" type="double">

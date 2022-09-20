@@ -26,7 +26,10 @@ public class AnimalController implements AnimalAPI {
         validateAnimalNameLength(animalDTO.getName());
         validateAnimalNameLength(animalDTO.getName());
          */
-        return animalMapper.fromAnimalToDTO(animalService.createAnimal(animalMapper.fromDTOToAnimal(animalDTO)));
+        System.out.println(animalDTO);
+        Animal animal = animalMapper.fromDTOToAnimal(animalDTO);
+        System.out.println(animal);
+        return animalMapper.fromAnimalToDTO(animalService.createAnimal(animal));
     }
 
     private void validateAllFieldsNotNull(AnimalDTO animalDTO) {
