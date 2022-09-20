@@ -30,7 +30,7 @@ public class Animal {
     @Type(type="org.hibernate.type.UUIDCharType")
     private UUID femaleParentId;
 
-    private boolean sex;
+    private char sex;
 
     private double weight;
 

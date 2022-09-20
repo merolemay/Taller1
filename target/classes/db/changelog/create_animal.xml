@@ -12,7 +12,7 @@
             <column name="name" type="varchar(255)" />
             <column name="maleParentId" type="UUID" />
             <column name="femaleParentId" type="UUID" />
-            <column name="sex" type="varchar(255)" />
+            <column name="sex" type="char" />
             <column name="weight" type="varchar(255)" />
             <column name="age" type="integer" />
             <column name="height" type="varchar(255)" />
@@ -22,9 +22,6 @@
                                  referencedColumnNames="id" />
         <addForeignKeyConstraint baseTableName="animal" baseColumnNames="femaleParentId" constraintName="female_fk" referencedTableName="animal"
                                  referencedColumnNames="id" />
-        <preConditions>
-            <foreignKeyConstraintExists foreignKeyName="male_fk" />
-        </preConditions>
     </changeSet>
 
 </databaseChangeLog>

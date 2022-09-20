@@ -33,8 +33,9 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public AnimalDTO createAnimal(AnimalDTO animalDTO) {
-        if(checkNotNull(animalDTO) && nameIsValid(animalDTO) && )
-        return animalMapper.fromAnimal(animalService.createAnimal(animalMapper.fromDTO(animalDTO)));
+        if(checkNotNull(animalDTO) && nameIsValid(animalDTO.getName()) && checkCharacteristics(animalDTO))
+            return animalMapper.fromAnimal(animalService.createAnimal(animalMapper.fromDTO(animalDTO)));
+        throw new RuntimeException();
     }
 
     private boolean checkNotNull(AnimalDTO animalDTO) {
@@ -46,7 +47,7 @@ public class AnimalController implements AnimalAPI {
     }
 
     private boolean checkCharacteristics(AnimalDTO animalDTO) {
-
+        return false;
     }
 
 

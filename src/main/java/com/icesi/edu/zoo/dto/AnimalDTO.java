@@ -26,7 +26,7 @@ public class AnimalDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID femaleParentId;
 
-    private boolean sex;
+    private char sex;
 
     private double weight;
 
