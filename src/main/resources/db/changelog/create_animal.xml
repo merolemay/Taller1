@@ -4,7 +4,7 @@
 
     <!-- Refer to https://docs.liquibase.com/change-types/community/create-table.html -->
 
-    <changeSet id="39726ba4-19c3-4282-8074-d67c5e656e53" author="diego.hidalgo" failOnError="true">
+    <changeSet id="39726ba4-19c3-4282-8074-d67c5e656e53" author="diego.hidalgo" failOnError="true" >
         <createTable tableName="animal">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" />

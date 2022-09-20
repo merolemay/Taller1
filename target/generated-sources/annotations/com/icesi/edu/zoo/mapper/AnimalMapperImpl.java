@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-09-19T13:58:46-0500",
+    date = "2022-09-19T14:57:19-0500",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.15 (Oracle Corporation)"
 )
 @Component
@@ -23,8 +23,8 @@ public class AnimalMapperImpl implements AnimalMapper {
 
         animal.id( animalDTO.getId() );
         animal.name( animalDTO.getName() );
-        animal.maleParent( animalDTO.getMaleParent() );
-        animal.femaleParent( animalDTO.getFemaleParent() );
+        animal.maleParentId( animalDTO.getMaleParentId() );
+        animal.femaleParentId( animalDTO.getFemaleParentId() );
         animal.sex( animalDTO.isSex() );
         animal.weight( animalDTO.getWeight() );
         animal.age( animalDTO.getAge() );
@@ -44,8 +44,8 @@ public class AnimalMapperImpl implements AnimalMapper {
 
         animalDTO.id( animal.getId() );
         animalDTO.name( animal.getName() );
-        animalDTO.maleParent( animal.getMaleParent() );
-        animalDTO.femaleParent( animal.getFemaleParent() );
+        animalDTO.maleParentId( animal.getMaleParentId() );
+        animalDTO.femaleParentId( animal.getFemaleParentId() );
         animalDTO.sex( animal.isSex() );
         animalDTO.weight( animal.getWeight() );
         animalDTO.age( animal.getAge() );
