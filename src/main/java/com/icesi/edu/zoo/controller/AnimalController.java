@@ -7,6 +7,10 @@ import com.icesi.edu.zoo.service.AnimalService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,13 +22,22 @@ public class AnimalController implements AnimalAPI {
     private final AnimalService animalService;
     private final AnimalMapper animalMapper;
 
-    private final String NAME_REGEX = "";
-    private final double MIN_MALE_WEIGHT = 11;
-    private final double MAX_MALE_WEIGHT = 15;
-    private final double MIN_FEMALE_WEIGHT = 8;
-    private final double MAX_FEMALE_WEIGHT = 11;
+    private final String NAME_REGEX = "[a-zA-Z\\s]*[\\S?]";
+    //ADULT
+    private final int ADULT_AGE = 6;
+    //KG
+    private final double MIN_ADULT_WEIGHT = 9;
+    private final double MAX_ADULT_WEIGHT = 15;
+    //CM
     private final double MIN_ADULT_HEIGHT = 100;
     private final double MAX_ADULT_HEIGHT = 130;
+    //YOUNG
+    //KG
+    private final double MIN_YOUNG_WEIGHT = 9;
+    private final double MAX_YOUNG_WEIGHT = 15;
+    //CM
+    private final double MIN_YOUNG_HEIGHT = 100;
+    private final double MAX_YOUNG_HEIGHT = 130;
 
     @Override
     public AnimalDTO getAnimal(UUID animalId) {
@@ -33,7 +46,8 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public AnimalDTO createAnimal(AnimalDTO animalDTO) {
-        if(checkNotNull(animalDTO) && nameIsValid(animalDTO.getName()) && checkCharacteristics(animalDTO))
+        if(checkNotNull(animalDTO) && nameIsValid(animalDTO.getName()) && checkCharacteristics(animalDTO)
+        && sexIsValid(animalDTO.getSex()) && dateIsValid(animalDTO.getArrivalDate()))
             return animalMapper.fromAnimal(animalService.createAnimal(animalMapper.fromDTO(animalDTO)));
         throw new RuntimeException();
     }
@@ -46,18 +60,29 @@ public class AnimalController implements AnimalAPI {
         return name != null && name.matches(NAME_REGEX);
     }
 
-    private boolean checkCharacteristics(AnimalDTO animalDTO) {
-        return false;
+    private boolean sexIsValid(char sex) {
+        return (sex == 'h' || sex == 'H') || (sex == 'm' || sex == 'F');
     }
 
+    private boolean dateIsValid(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date current = new Date();
+        return date != null && LocalDate.parse(date.toString()).compareTo(OffsetDateTime.parse(current.toString()).toLocalDate()) <= 0;
+    }
+
+    private boolean checkCharacteristics(AnimalDTO animalDTO) {
+        boolean adult = animalDTO.getAge() >= ADULT_AGE;
+        double height = animalDTO.getHeight();
+        double weight = animalDTO.getWeight();
+        if(adult)
+            return inClosedRange(height, MIN_ADULT_HEIGHT, MAX_ADULT_HEIGHT) && inClosedRange(weight, MIN_ADULT_WEIGHT, MAX_ADULT_WEIGHT);
+        else
+            return inClosedRange(height, MIN_YOUNG_HEIGHT, MAX_YOUNG_HEIGHT) && inClosedRange(weight, MIN_YOUNG_WEIGHT, MAX_YOUNG_WEIGHT);
+    }
 
     private boolean inClosedRange(double num, double min, double max) {
         return (num >= min) && (num <= max);
     }
-
-
-
-
 
     @Override
     public List<AnimalDTO> getAnimals() {
