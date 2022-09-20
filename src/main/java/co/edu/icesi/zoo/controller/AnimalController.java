@@ -4,8 +4,8 @@ import co.edu.icesi.zoo.api.AnimalAPI;
 import co.edu.icesi.zoo.dto.AnimalDTO;
 import co.edu.icesi.zoo.dto.AnimalWithParentsDTO;
 import co.edu.icesi.zoo.mapper.AnimalMapper;
+import co.edu.icesi.zoo.model.Animal;
 import co.edu.icesi.zoo.service.AnimalService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,9 +21,11 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public AnimalDTO createAnimal(AnimalDTO animalDTO) {
+        /*
         validateAllFieldsNotNull(animalDTO);
         validateAnimalNameLength(animalDTO.getName());
         validateAnimalNameLength(animalDTO.getName());
+         */
         return animalMapper.fromAnimalToDTO(animalService.createAnimal(animalMapper.fromDTOToAnimal(animalDTO)));
     }
 
@@ -36,12 +38,9 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public AnimalWithParentsDTO getAnimal(String animalName) {
-        validateAnimalNameLength(animalName);
-        validateAnimalNameCharacters(animalName);
-        AnimalWithParentsDTO animalWithParentsDTO = animalMapper.fromAnimalToAnimalWithParentsDTO(animalService.getAnimal(animalName));
-        animalWithParentsDTO.setFather(animalMapper.fromAnimalToDTO(animalService.getAnimal(animalWithParentsDTO.getFather().getName())));
-        animalWithParentsDTO.setMother(animalMapper.fromAnimalToDTO(animalService.getAnimal(animalWithParentsDTO.getMother().getName())));
-        return animalWithParentsDTO;
+        //validateAnimalNameLength(animalName);
+        //validateAnimalNameCharacters(animalName);
+        return animalMapper.fromAnimalToAnimalWithParentsDTO(animalService.getAnimal(animalName));
     }
 
     private void validateAnimalNameLength(String animalName) {

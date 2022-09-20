@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -24,15 +25,12 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal getAnimal(String animalName) {
-        Optional<Animal> animal = animalRepository.findByName(animalName);
-        if (animal.isEmpty())
-            throw new RuntimeException();
-        return animal.get();
+        return animalRepository.findByName(animalName).orElse(null);
     }
 
     @Override
-    public Optional<Animal> getNullableAnimal(String animalName) {
-        return animalRepository.findByName(animalName);
+    public Animal getAnimal(UUID id) {
+        return animalRepository.findById(id).orElse(null);
     }
 
     @Override
