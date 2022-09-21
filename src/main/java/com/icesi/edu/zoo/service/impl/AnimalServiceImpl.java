@@ -53,7 +53,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     private boolean nameIsValid(String animalName) {
-        return false;
+        return true;
     }
 
     private boolean checkCharacteristics(Animal animalDTO) {

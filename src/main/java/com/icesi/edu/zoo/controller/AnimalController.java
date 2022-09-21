@@ -22,7 +22,8 @@ public class AnimalController implements AnimalAPI {
     private final AnimalService animalService;
     private final AnimalMapper animalMapper;
 
-    private final String NAME_REGEX = "[a-zA-Z\\s]*[\\S?]";
+    private final String NAME_REGEX = "^[a-zA-Z\\s]*$";
+    private final String SEX_REGEX = "^[m|M|h|H]$";
     private final int MAX_NAME_LENGTH = 120;
 
     @Override
@@ -43,17 +44,15 @@ public class AnimalController implements AnimalAPI {
     }
 
     private boolean nameIsValid(String name) {
-        return name != null && name.length() <= MAX_NAME_LENGTH && name.matches(NAME_REGEX);
+        return name != null && name.length() <= MAX_NAME_LENGTH && name.matches(NAME_REGEX) && !name.isBlank();
     }
 
     private boolean sexIsValid(char sex) {
-        return (sex == 'h' || sex == 'H') || (sex == 'm' || sex == 'F');
+        return Character.toString(sex).matches(SEX_REGEX);
     }
 
     private boolean dateIsValid(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date current = new Date();
-        return date != null && LocalDate.parse(date.toString()).compareTo(OffsetDateTime.parse(current.toString()).toLocalDate()) <= 0;
+        return date != null && date.compareTo(new Date()) <= 0;
     }
 
     @Override
