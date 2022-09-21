@@ -42,14 +42,34 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal createAnimal(Animal animalDTO) {
-        if(!animalExists(animalDTO.getId()) && animalExists(animalDTO.getMaleParentId())
-                && animalExists(animalDTO.getFemaleParentId()) && nameIsValid(animalDTO.getName()))
+        if(!animalExists(animalDTO.getId())
+                && animalExists(animalDTO.getMaleParentId())
+                && animalExists(animalDTO.getFemaleParentId())
+                && parentsAreDifferent(animalDTO)
+                && checkParentsSex(animalDTO)
+                && nameIsValid(animalDTO.getName()))
             return animalRepository.save(animalDTO);
         throw new RuntimeException();
     }
 
     private boolean animalExists(UUID animalId) {
         return animalId == null || animalRepository.findById(animalId).isPresent();
+    }
+
+    private boolean checkParentsSex(final Animal animalDTO) {
+        Animal male = animalRepository.findById(animalDTO.getMaleParentId()).orElse(null);
+        Animal female = animalRepository.findById(animalDTO.getFemaleParentId()).orElse(null);
+        boolean correctMaleSex = true;
+        boolean correctFemaleSex = true;
+        if(male != null)
+            correctMaleSex = Character.toString(male.getSex()).equalsIgnoreCase("m");
+        if(female != null)
+            correctFemaleSex = Character.toString(female.getSex()).equalsIgnoreCase("f");
+        return correctMaleSex && correctFemaleSex;
+    }
+
+    private boolean parentsAreDifferent(final Animal animalDTO) {
+        return animalDTO.getFemaleParentId() != animalDTO.getMaleParentId();
     }
 
     private boolean nameIsValid(String animalName) {
