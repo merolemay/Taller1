@@ -35,9 +35,8 @@ public class AnimalServiceImpl implements AnimalService {
             family.add(animalRepository.findById(child.getMaleParentId()).orElse(null));
             family.add(animalRepository.findById(child.getFemaleParentId()).orElse(null));
             family.removeAll(Collections.singleton(null));
-            return family;
         }
-        throw new RuntimeException();
+        return family;
     }
 
     @Override
