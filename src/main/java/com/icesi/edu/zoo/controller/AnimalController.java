@@ -26,8 +26,8 @@ public class AnimalController implements AnimalAPI {
     private final int MAX_NAME_LENGTH = 120;
 
     @Override
-    public AnimalDTO getAnimal(UUID animalId) {
-        return animalMapper.fromAnimal(animalService.getAnimal(animalId));
+    public List<AnimalDTO> getAnimal(UUID animalId) {
+        return animalService.getAnimal(animalId).stream().map(animalMapper::fromAnimal).collect(Collectors.toList());
     }
 
     @Override

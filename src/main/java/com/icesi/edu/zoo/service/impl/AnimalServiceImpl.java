@@ -8,8 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -22,19 +23,37 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
 
     @Override
-    public Animal getAnimal(UUID animalId) {
-        return animalRepository.findById(animalId).orElse(null);
+    public List<Animal> getAnimal(UUID animalId) {
+        return createFamilyList(animalId);
+    }
+
+    private List<Animal> createFamilyList(UUID animalId) {
+        List<Animal> family = new ArrayList<>();
+        Animal child = animalRepository.findById(animalId).orElse(null);
+        if(child != null) {
+            family.add(child);
+            family.add(animalRepository.findById(child.getMaleParentId()).orElse(null));
+            family.add(animalRepository.findById(child.getFemaleParentId()).orElse(null));
+            family.removeAll(Collections.singleton(null));
+            return family;
+        }
+        throw new RuntimeException();
     }
 
     @Override
     public Animal createAnimal(Animal animalDTO) {
-        if(!animalExists(animalDTO.getId()) && animalExists(animalDTO.getMaleParentId()) && animalExists(animalDTO.getFemaleParentId()))
+        if(!animalExists(animalDTO.getId()) && animalExists(animalDTO.getMaleParentId())
+                && animalExists(animalDTO.getFemaleParentId()) && nameIsValid(animalDTO.getName()))
             return animalRepository.save(animalDTO);
         throw new RuntimeException();
     }
 
     private boolean animalExists(UUID animalId) {
         return animalId == null || animalRepository.findById(animalId).isPresent();
+    }
+
+    private boolean nameIsValid(String animalName) {
+        return false;
     }
 
     private boolean checkCharacteristics(Animal animalDTO) {
