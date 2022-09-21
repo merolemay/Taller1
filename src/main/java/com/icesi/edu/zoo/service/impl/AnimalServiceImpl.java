@@ -44,8 +44,9 @@ public class AnimalServiceImpl implements AnimalService {
         if(!animalExists(animalDTO.getId())
                 && animalExists(animalDTO.getMaleParentId())
                 && animalExists(animalDTO.getFemaleParentId())
-                && parentsAreDifferent(animalDTO)
-                && checkParentsSex(animalDTO)
+                && parentsAreDifferent(animalDTO.getMaleParentId(), animalDTO.getFemaleParentId())
+                && checkParentSex(animalDTO.getMaleParentId(), "m")
+                && checkParentSex(animalDTO.getFemaleParentId(), "h")
                 && nameIsValid(animalDTO.getName()))
             return animalRepository.save(animalDTO);
         throw new RuntimeException();
@@ -55,20 +56,15 @@ public class AnimalServiceImpl implements AnimalService {
         return animalId == null || animalRepository.findById(animalId).isPresent();
     }
 
-    private boolean checkParentsSex(final Animal animalDTO) {
-        Animal male = animalRepository.findById(animalDTO.getMaleParentId()).orElse(null);
-        Animal female = animalRepository.findById(animalDTO.getFemaleParentId()).orElse(null);
-        boolean correctMaleSex = true;
-        boolean correctFemaleSex = true;
-        if(male != null)
-            correctMaleSex = Character.toString(male.getSex()).equalsIgnoreCase("m");
-        if(female != null)
-            correctFemaleSex = Character.toString(female.getSex()).equalsIgnoreCase("f");
-        return correctMaleSex && correctFemaleSex;
+    private boolean checkParentSex(UUID animalId, String sex) {
+        if(animalId == null)
+            return true;
+        Animal parent = animalRepository.findById(animalId).orElse(null);
+        return Character.toString(parent.getSex()).equalsIgnoreCase(sex);
     }
 
-    private boolean parentsAreDifferent(final Animal animalDTO) {
-        return animalDTO.getFemaleParentId() != animalDTO.getMaleParentId();
+    private boolean parentsAreDifferent(UUID maleId, UUID femaleId) {
+        return maleId == null || femaleId == null || maleId.compareTo(femaleId) != 0;
     }
 
     private boolean nameIsValid(String animalName) {
