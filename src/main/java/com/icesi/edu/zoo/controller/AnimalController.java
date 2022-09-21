@@ -39,7 +39,7 @@ public class AnimalController implements AnimalAPI {
         throw new RuntimeException();
     }
 
-    private boolean checkNotNull(AnimalDTO animalDTO) {
+    private boolean checkNotNull(final AnimalDTO animalDTO) {
         return animalDTO != null;
     }
 
