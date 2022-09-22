@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!-- Refer to https://docs.liquibase.com/change-types/community/create-table.html -->
+
+    <changeSet id="7A48FB0807A684EE" author="brian.romero" failOnError="true">
+
+        <createTable tableName="animal">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="name"  type="varchar(120)"/>
+            <column name="sex" type="varchar(20)"/>
+            <column name="weight" type="numeric"/>
+            <column name="age" type="numeric"/>
+            <column name="height" type="numeric"/>
+            <column name="dateOfArrival" type="date"/>
+            <column name="fatherId" type="UUID"/>
+            <column name="motherId" type="UUID"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="animal" baseColumnNames="fatherId" constraintName="father_fk" referencedTableName="animal"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="animal" baseColumnNames="motherId" constraintName="mother_fk" referencedTableName="animal"
+                                 referencedColumnNames="id" />
+    </changeSet>
+</databaseChangeLog>
