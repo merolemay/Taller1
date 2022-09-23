@@ -5,9 +5,9 @@ import com.edu.icesi.CaliZoo.dto.ToucanDTO;
 import com.edu.icesi.CaliZoo.mapper.ToucanMapper;
 import com.edu.icesi.CaliZoo.service.ToucanService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -21,12 +21,12 @@ public class ToucanController implements ToucanAPI {
     private final ToucanMapper toucanMapper;
 
     @Override
-    public ToucanDTO getToucan(UUID toucanId) {
+    public List<ToucanDTO> getToucan(UUID toucanId) {
         return toucanMapper.fromToucan(toucanService.getToucan(toucanId));
     }
 
     @Override
-    public ToucanDTO createToucan(ToucanDTO toucanDTO) {
+    public ToucanDTO createToucan(@Valid ToucanDTO toucanDTO) {
         if(toucanDTO == null)
             throw new RuntimeException();
         verifyNameConstrains(toucanDTO.getName());
@@ -40,7 +40,7 @@ public class ToucanController implements ToucanAPI {
     }
 
     private void verifyNameConstrains(final String toucanName){
-        if(toucanName == null || toucanName.length() > 120 || toucanName.matches("([^A-Za-z ])"))
+        if(toucanName.matches("([^A-Za-z ])"))
             throw new RuntimeException();
     }//End verifyNameConstrains
 

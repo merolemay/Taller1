@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -18,11 +19,27 @@ public class ToucanDTO {
     private UUID id;
     private UUID fatherId;
     private UUID motherId;
+    @NotBlank
+    @NotNull
+    @Size(min = 1, max = 120)
     private String name;
+    @NotBlank
+    @NotNull
+    @Size(min =1, max = 1)
     private String sex;
+    @NotNull
+    @Max(value = 680)
+    @Min(value = 130)
     private double weight;
+    @NotNull
+    @Max(value = 20)
+    @Min(value = 0)
     private int age;
+    @NotNull
+    @Max(value = 65)
+    @Min(value = 18)
     private double height;
+    @NotNull
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate dateOfArrival;
 

@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface ToucanAPI {
 
     @GetMapping("/{toucanId}")
-    public ToucanDTO getToucan(@PathVariable UUID toucanId);
+    public List<ToucanDTO> getToucan(@PathVariable UUID toucanId);
 
     @PostMapping()
     public ToucanDTO createToucan(@RequestBody ToucanDTO toucanDTO);
