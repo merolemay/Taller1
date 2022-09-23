@@ -3,8 +3,6 @@ package co.edu.icesi.zoo.controller;
 import co.edu.icesi.zoo.api.AnimalAPI;
 import co.edu.icesi.zoo.dto.AnimalDTO;
 import co.edu.icesi.zoo.dto.AnimalWithParentsDTO;
-import co.edu.icesi.zoo.mapper.AnimalMapper;
-import co.edu.icesi.zoo.model.Animal;
 import co.edu.icesi.zoo.service.AnimalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +14,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AnimalController implements AnimalAPI {
 
-    private final AnimalMapper animalMapper;
     private final AnimalService animalService;
 
     @Override
@@ -26,10 +23,7 @@ public class AnimalController implements AnimalAPI {
         validateAnimalNameLength(animalDTO.getName());
         validateAnimalNameLength(animalDTO.getName());
          */
-        System.out.println(animalDTO);
-        Animal animal = animalMapper.fromDTOToAnimal(animalDTO);
-        System.out.println(animal);
-        return animalMapper.fromAnimalToDTO(animalService.createAnimal(animal));
+        return animalService.getDTOFromAnimal(animalService.createAnimal(animalService.getAnimalFromDTO(animalDTO)));
     }
 
     private void validateAllFieldsNotNull(AnimalDTO animalDTO) {
@@ -41,9 +35,7 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public AnimalWithParentsDTO getAnimal(String animalName) {
-        //validateAnimalNameLength(animalName);
-        //validateAnimalNameCharacters(animalName);
-        return animalMapper.fromAnimalToAnimalWithParentsDTO(animalService.getAnimal(animalName));
+        return animalService.getAnimalWithParentsFromAnimal(animalService.getAnimal(animalName));
     }
 
     private void validateAnimalNameLength(String animalName) {
@@ -58,6 +50,6 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public List<AnimalDTO> getAnimals() {
-        return animalService.getAnimals().stream().map(animalMapper::fromAnimalToDTO).collect(Collectors.toList());
+        return animalService.getAnimals().stream().map(animalService::getDTOFromAnimal).collect(Collectors.toList());
     }
 }

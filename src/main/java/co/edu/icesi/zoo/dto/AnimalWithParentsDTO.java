@@ -1,6 +1,7 @@
 package co.edu.icesi.zoo.dto;
 
 import co.edu.icesi.zoo.constant.AnimalGender;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,9 @@ import java.sql.Date;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AnimalWithParentsDTO {
 
     private String name;

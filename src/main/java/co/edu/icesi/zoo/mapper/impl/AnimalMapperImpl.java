@@ -4,21 +4,16 @@ import co.edu.icesi.zoo.dto.AnimalDTO;
 import co.edu.icesi.zoo.dto.AnimalWithParentsDTO;
 import co.edu.icesi.zoo.mapper.AnimalMapper;
 import co.edu.icesi.zoo.model.Animal;
-import co.edu.icesi.zoo.service.AnimalService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.UUID;
 
 @Component
-@RequiredArgsConstructor
 public class AnimalMapperImpl implements AnimalMapper {
 
-    private final AnimalService animalService;
-
     @Override
-    public Animal fromDTOToAnimal(AnimalDTO animalDTO) {
+    public Animal fromDTOToAnimal(AnimalDTO animalDTO, @Nullable UUID father_id, @Nullable UUID mother_id) {
         if (animalDTO == null)
             return null;
 
@@ -30,14 +25,14 @@ public class AnimalMapperImpl implements AnimalMapper {
         animal.height(animalDTO.getHeight());
         animal.weight(animalDTO.getWeight());
         animal.arrivalDate(animalDTO.getArrivalDate());
-        Optional.ofNullable(animalService.getAnimal(animalDTO.getFather())).map(Animal::getId).ifPresent(animal::father_id);
-        Optional.ofNullable(animalService.getAnimal(animalDTO.getMother())).map(Animal::getId).ifPresent(animal::mother_id);
+        animal.father_id(father_id);
+        animal.mother_id(mother_id);
 
         return animal.build();
     }
 
     @Override
-    public AnimalDTO fromAnimalToDTO(Animal animal) {
+    public AnimalDTO fromAnimalToDTO(Animal animal, @Nullable String father_name, @Nullable String mother_name) {
         if (animal == null)
             return null;
 
@@ -49,16 +44,14 @@ public class AnimalMapperImpl implements AnimalMapper {
         animalDTO.height(animal.getHeight());
         animalDTO.weight(animal.getWeight());
         animalDTO.arrivalDate(animal.getArrivalDate());
-        if (Objects.nonNull(animal.getFather_id()))
-            Optional.ofNullable(animalService.getAnimal(animal.getFather_id())).map(Animal::getName).ifPresent(animalDTO::father);
-        if (Objects.nonNull(animal.getMother_id()))
-            Optional.ofNullable(animalService.getAnimal(animal.getMother_id())).map(Animal::getName).ifPresent(animalDTO::mother);
+        animalDTO.father(father_name);
+        animalDTO.mother(mother_name);
 
         return animalDTO.build();
     }
 
     @Override
-    public AnimalWithParentsDTO fromAnimalToAnimalWithParentsDTO(Animal animal) {
+    public AnimalWithParentsDTO fromAnimalToAnimalWithParentsDTO(Animal animal, @Nullable AnimalDTO father, @Nullable AnimalDTO mother) {
         if (animal == null)
             return null;
 
@@ -70,10 +63,8 @@ public class AnimalMapperImpl implements AnimalMapper {
         animalWithParentsDTO.height(animal.getHeight());
         animalWithParentsDTO.weight(animal.getWeight());
         animalWithParentsDTO.arrivalDate(animal.getArrivalDate());
-        if (Objects.nonNull(animal.getFather_id()))
-            Optional.ofNullable(fromAnimalToDTO(animalService.getAnimal(animal.getFather_id()))).ifPresent(animalWithParentsDTO::father);
-        if (Objects.nonNull(animal.getMother_id()))
-            Optional.ofNullable(fromAnimalToDTO(animalService.getAnimal(animal.getMother_id()))).ifPresent(animalWithParentsDTO::mother);
+        animalWithParentsDTO.father(father);
+        animalWithParentsDTO.mother(mother);
 
         return animalWithParentsDTO.build();
     }
