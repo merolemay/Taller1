@@ -2,14 +2,14 @@ package com.icesi.edu.zoo.controller;
 
 import com.icesi.edu.zoo.api.AnimalAPI;
 import com.icesi.edu.zoo.dto.AnimalDTO;
+import com.icesi.edu.zoo.error.exception.AnimalError;
+import com.icesi.edu.zoo.error.exception.AnimalException;
 import com.icesi.edu.zoo.mapper.AnimalMapper;
 import com.icesi.edu.zoo.service.AnimalService;
+import static com.icesi.edu.zoo.constant.AnimalErrorCode.*;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -33,26 +33,35 @@ public class AnimalController implements AnimalAPI {
 
     @Override
     public AnimalDTO createAnimal(AnimalDTO animalDTO) {
-        if(checkNotNull(animalDTO) && nameIsValid(animalDTO.getName())
-        && sexIsValid(animalDTO.getSex()) && dateIsValid(animalDTO.getArrivalDate()))
-            return animalMapper.fromAnimal(animalService.createAnimal(animalMapper.fromDTO(animalDTO)));
-        throw new RuntimeException();
+        checkNotNull(animalDTO);
+        nameIsValid(animalDTO.getName());
+        sexIsValid(animalDTO.getSex());
+        dateIsValid(animalDTO.getArrivalDate());
+        return animalMapper.fromAnimal(animalService.createAnimal(animalMapper.fromDTO(animalDTO)));
     }
 
     private boolean checkNotNull(final AnimalDTO animalDTO) {
-        return animalDTO != null;
+        if(animalDTO != null)
+            return true;
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_01, CODE_01.getMessage()));
     }
 
     private boolean nameIsValid(String name) {
-        return name != null && name.length() <= MAX_NAME_LENGTH && name.matches(NAME_REGEX) && !name.isBlank();
+        if(name != null && !name.isBlank() && name.length() <= MAX_NAME_LENGTH && name.matches(NAME_REGEX))
+            return true;
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_02, CODE_02.getMessage()));
     }
 
     private boolean sexIsValid(char sex) {
-        return Character.toString(sex).matches(SEX_REGEX);
+        if(Character.toString(sex).matches(SEX_REGEX))
+            return true;
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_03, CODE_03.getMessage()));
     }
 
     private boolean dateIsValid(Date date) {
-        return date != null && date.compareTo(new Date()) <= 0;
+        if(date != null && date.compareTo(new Date()) <= 0)
+            return true;
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_04, CODE_04.getMessage()));
     }
 
     @Override

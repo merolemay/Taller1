@@ -2,7 +2,6 @@ package com.icesi.edu.zoo.api;
 
 import com.icesi.edu.zoo.dto.AnimalDTO;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
 

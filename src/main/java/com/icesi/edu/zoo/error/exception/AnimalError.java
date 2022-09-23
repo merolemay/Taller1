@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AnimalError {
 
-    private String message;
     private AnimalErrorCode code;
+    private String message;
 
 }
