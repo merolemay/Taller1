@@ -1,13 +1,16 @@
 package com.icesi.edu.zoo.service.impl;
 
 import com.icesi.edu.zoo.constant.CondorCharacteristics;
+import com.icesi.edu.zoo.error.exception.AnimalError;
+import com.icesi.edu.zoo.error.exception.AnimalException;
 import com.icesi.edu.zoo.model.Animal;
 import com.icesi.edu.zoo.repository.AnimalRepository;
 import com.icesi.edu.zoo.service.AnimalService;
+import static com.icesi.edu.zoo.constant.AnimalErrorCode.*;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,40 +44,51 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal createAnimal(Animal animalDTO) {
-        if(!animalExists(animalDTO.getId())
-                && animalExists(animalDTO.getMaleParentId())
-                && animalExists(animalDTO.getFemaleParentId())
-                && parentsAreDifferent(animalDTO.getMaleParentId(), animalDTO.getFemaleParentId())
-                && checkParentSex(animalDTO.getMaleParentId(), "m")
-                && checkParentSex(animalDTO.getFemaleParentId(), "h")
-                && nameIsValid(animalDTO.getName()))
-            return animalRepository.save(animalDTO);
-        throw new RuntimeException();
+        if(animalExists(animalDTO.getId()))
+            throw new AnimalException(HttpStatus.I_AM_A_TEAPOT, new AnimalError(CODE_O5, CODE_O5.getMessage()));
+        if(!animalExists(animalDTO.getMaleParentId()))
+            throw new AnimalException(HttpStatus.NOT_FOUND, new AnimalError(CODE_06, CODE_06.getMessage()));
+        if(!animalExists(animalDTO.getFemaleParentId()))
+            throw new AnimalException(HttpStatus.NOT_FOUND, new AnimalError(CODE_06, CODE_06.getMessage()));
+        parentsAreDifferent(animalDTO.getMaleParentId(), animalDTO.getFemaleParentId());
+        checkParentSex(animalDTO.getMaleParentId(), "m");
+        checkParentSex(animalDTO.getFemaleParentId(), "h");
+        nameIsAvailable(animalDTO.getName());
+        checkCharacteristics(animalDTO);
+        return animalRepository.save(animalDTO);
     }
 
     private boolean animalExists(UUID animalId) {
-        return animalId == null || animalRepository.findById(animalId).isPresent();
+        return animalRepository.findById(animalId).isPresent();
     }
 
     private boolean checkParentSex(UUID animalId, String sex) {
         if(animalId == null)
             return true;
         Animal parent = animalRepository.findById(animalId).orElse(null);
-        return Character.toString(parent.getSex()).equalsIgnoreCase(sex);
+        if(Character.toString(parent.getSex()).equalsIgnoreCase(sex))
+            return true;
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_08, CODE_08.getMessage()));
     }
 
     private boolean parentsAreDifferent(UUID maleId, UUID femaleId) {
-        return maleId == null || femaleId == null || maleId.compareTo(femaleId) != 0;
+        if(maleId == null || femaleId == null || maleId.compareTo(femaleId) != 0)
+            return true;
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_07, CODE_07.getMessage()));
     }
 
-    private boolean nameIsValid(String animalName) {
-        return true;
+    private boolean nameIsAvailable(String animalName) {
+        if(getAnimals().stream().noneMatch(a -> a.getName().equalsIgnoreCase(animalName)))
+            return true;
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_09, CODE_09.getMessage()));
     }
 
-    private boolean checkCharacteristics(Animal animalDTO) {
+    private boolean checkCharacteristics(final Animal animalDTO) {
         double height = animalDTO.getHeight();
         double weight = animalDTO.getWeight();
-        return hasValidCharacteristic(height, CondorCharacteristics.HEIGHT) && hasValidCharacteristic(weight, CondorCharacteristics.WEIGHT);
+        if(hasValidCharacteristic(height, CondorCharacteristics.HEIGHT) && hasValidCharacteristic(weight, CondorCharacteristics.WEIGHT))
+            return true;
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_10, CODE_10.getMessage()));
     }
 
     private <T extends CondorCharacteristics> boolean hasValidCharacteristic(double height, T attr) {
