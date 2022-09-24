@@ -30,7 +30,8 @@ public class ToucanServiceImpl implements ToucanService {
             throw new RuntimeException();
         thereIsToucanWithName(toucanDTO.getName());
         validateSexInBounds(toucanDTO.getSex());
-        validateParentsSex(toucanDTO.getMotherId(),toucanDTO.getFatherId());
+        validateParentSex(toucanDTO.getMotherId(),"F");
+        validateParentSex(toucanDTO.getFatherId(),"M");
         return toucanRepository.save(toucanDTO);
     }//End createToucan
 
@@ -51,15 +52,10 @@ public class ToucanServiceImpl implements ToucanService {
             throw new RuntimeException();
     }//End checkSex
 
-    private void validateParentsSex(UUID motherId, UUID fatherId){
-        if(motherId != null){
-            Optional<Toucan> mother = toucanRepository.findById(motherId);
-            if(!mother.get().getSex().toUpperCase().matches("F"))
-                throw new RuntimeException();
-        }//End if
-        if(fatherId != null){
-            Optional<Toucan> father = toucanRepository.findById(fatherId);
-            if(!father.get().getSex().toUpperCase().matches("M"))
+    private void validateParentSex(UUID parentId, String sex){
+        if(parentId != null){
+            Optional<Toucan> parent = toucanRepository.findById(parentId);
+            if(!parent.get().getSex().toUpperCase().matches(sex))
                 throw new RuntimeException();
         }//End if
     }//End validateParentsSex
