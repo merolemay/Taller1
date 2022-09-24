@@ -54,7 +54,7 @@ public class AnimalController implements CapybaraAPI {
         return animalService.getAnimals().stream().map(animalMapper::animalToCapybara).collect(Collectors.toList());
     }
 
-    private AnimalResponseDTO getAnimalResponse(Animal child){
+    private AnimalResponseDTO getAnimalResponse(Animal child) {
         AtomicReference<Animal> mother = new AtomicReference<>();
         AtomicReference<Animal> father = new AtomicReference<>();
 

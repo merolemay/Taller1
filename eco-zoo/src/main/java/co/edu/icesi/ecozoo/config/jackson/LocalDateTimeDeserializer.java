@@ -22,8 +22,8 @@ public class LocalDateTimeDeserializer extends StdDeserializer<LocalDateTime> {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             return LocalDateTime.parse(text, formatter);
-        }catch (DateTimeException dateTimeException){
-            throw new InvalidFormatException(p ,"", p.getText(), LocalDateTime.class);
+        } catch (DateTimeException dateTimeException) {
+            throw new InvalidFormatException(p, "", p.getText(), LocalDateTime.class);
         }
     }
 }

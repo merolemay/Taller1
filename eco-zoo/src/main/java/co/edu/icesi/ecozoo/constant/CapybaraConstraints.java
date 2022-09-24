@@ -1,10 +1,5 @@
 package co.edu.icesi.ecozoo.constant;
 
-import lombok.AllArgsConstructor;
-
-import java.math.BigDecimal;
-
-
 public class CapybaraConstraints {
     public static final String MIN_WEIGHT = "1.0";
     public static final String MAX_WEIGHT = "70.0";

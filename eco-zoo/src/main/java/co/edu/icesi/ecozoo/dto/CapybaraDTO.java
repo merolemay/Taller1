@@ -8,12 +8,11 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CapybaraDTO extends AnimalDTO{
+public class CapybaraDTO extends AnimalDTO {
 
     @DecimalMax(value = CapybaraConstraints.MAX_WEIGHT, message = "The weight of the animal must be less or equal than " + CapybaraConstraints.MAX_WEIGHT)
     @DecimalMin(value = CapybaraConstraints.MIN_WEIGHT, message = "The weight of the animal must be greater or equal than " + CapybaraConstraints.MIN_WEIGHT)

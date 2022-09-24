@@ -25,15 +25,15 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal getAnimal(UUID animalId) {
-        Optional<Animal> animal= animalRepository.findById(animalId);
-        animal.orElseThrow(() -> new AnimalException(HttpStatus.NOT_FOUND, new AnimalError(AnimalErrorCode.CODE_01,AnimalErrorCode.CODE_01.getMessage())));
+        Optional<Animal> animal = animalRepository.findById(animalId);
+        animal.orElseThrow(() -> new AnimalException(HttpStatus.NOT_FOUND, new AnimalError(AnimalErrorCode.CODE_01, AnimalErrorCode.CODE_01.getMessage())));
         return animal.get();
     }
 
     @Override
     public Animal getAnimalByName(String name) {
-        Optional<Animal> animal= animalRepository.findByName(name);
-        animal.orElseThrow(() -> new AnimalException(HttpStatus.NOT_FOUND, new AnimalError(AnimalErrorCode.CODE_01,AnimalErrorCode.CODE_01.getMessage())));
+        Optional<Animal> animal = animalRepository.findByName(name);
+        animal.orElseThrow(() -> new AnimalException(HttpStatus.NOT_FOUND, new AnimalError(AnimalErrorCode.CODE_01, AnimalErrorCode.CODE_01.getMessage())));
         return animal.get();
     }
 
@@ -59,29 +59,29 @@ public class AnimalServiceImpl implements AnimalService {
         return StreamSupport.stream(animalRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
-    private void validateUniqueName(String name){
+    private void validateUniqueName(String name) {
         animalRepository.findByName(name).ifPresent(animal -> {
-            throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_05,AnimalErrorCode.CODE_05.getMessage()));
+            throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_05, AnimalErrorCode.CODE_05.getMessage()));
         });
     }
 
-    private void validateMother(Optional<UUID> motherID){
+    private void validateMother(Optional<UUID> motherID) {
         motherID.ifPresent(motherId -> {
             //Mother exists
-            Animal mother = animalRepository.findById(motherId).orElseThrow(() -> new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_02,AnimalErrorCode.CODE_02.getMessage())));
+            Animal mother = animalRepository.findById(motherId).orElseThrow(() -> new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_02, AnimalErrorCode.CODE_02.getMessage())));
             //Mother is a female
             if (mother.isSex() == AnimalSex.FEMALE.isValue())
-                throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_03,AnimalErrorCode.CODE_03.getMessage()));
+                throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_03, AnimalErrorCode.CODE_03.getMessage()));
         });
     }
 
-    private void validateFather(Optional<UUID> fatherID){
+    private void validateFather(Optional<UUID> fatherID) {
         fatherID.ifPresent(fatherId -> {
             //Father exists
-            Animal father = animalRepository.findById(fatherId).orElseThrow(() -> new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_02,AnimalErrorCode.CODE_02.getMessage())));
+            Animal father = animalRepository.findById(fatherId).orElseThrow(() -> new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_02, AnimalErrorCode.CODE_02.getMessage())));
             //Father is a male
             if (father.isSex() == AnimalSex.MALE.isValue())
-                throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_04,AnimalErrorCode.CODE_04.getMessage()));
+                throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_04, AnimalErrorCode.CODE_04.getMessage()));
         });
     }
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Configuration
 public class JacksonConfig {
     @Bean
-    public ObjectMapper objectMapper(){
+    public ObjectMapper objectMapper() {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
         module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());

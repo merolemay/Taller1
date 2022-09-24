@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public interface AnimalService {
 
-        public Animal getAnimal(UUID animalId);
+    public Animal getAnimal(UUID animalId);
 
-        public Animal getAnimalByName(String name);
+    public Animal getAnimalByName(String name);
 
-        public Animal createAnimal(Animal animal);
+    public Animal createAnimal(Animal animal);
 
-        public List<Animal> getAnimals();
+    public List<Animal> getAnimals();
 }

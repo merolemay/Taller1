@@ -15,13 +15,13 @@ import java.util.Objects;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<AnimalError> handleException(AnimalException animalException){
+    public ResponseEntity<AnimalError> handleException(AnimalException animalException) {
         return new ResponseEntity<>(animalException.getError(), animalException.getHttpStatus());
     }
 
     @ExceptionHandler
-    public ResponseEntity<AnimalError> handleAnnotationException(MethodArgumentNotValidException methodArgumentNotValidException){
-        AnimalException animalException = new AnimalException(HttpStatus.BAD_REQUEST,new AnimalError(AnimalErrorCode.CODE_06, Objects.requireNonNull(methodArgumentNotValidException.getFieldError()).getDefaultMessage()));
+    public ResponseEntity<AnimalError> handleAnnotationException(MethodArgumentNotValidException methodArgumentNotValidException) {
+        AnimalException animalException = new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_06, Objects.requireNonNull(methodArgumentNotValidException.getFieldError()).getDefaultMessage()));
         return new ResponseEntity<>(animalException.getError(), animalException.getHttpStatus());
     }
 }
