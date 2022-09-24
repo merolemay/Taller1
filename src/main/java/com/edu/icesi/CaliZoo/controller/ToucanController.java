@@ -45,7 +45,7 @@ public class ToucanController implements ToucanAPI {
     }
 
     private void verifyNameConstrains(final String toucanName){
-        if(toucanName.matches("([^A-Za-z ])"))
+        if(toucanName.isBlank() || !toucanName.matches("\\A[a-zA-Z\\s]+\\z"))
             throw new ToucanException(HttpStatus.BAD_REQUEST,new ToucanError(ErrorCodes.INVALID_FORMAT.getCode(),"Name contains invalid characters"));
     }//End verifyNameConstrains
 
