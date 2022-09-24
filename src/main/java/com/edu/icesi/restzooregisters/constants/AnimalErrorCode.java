@@ -12,7 +12,8 @@ public enum AnimalErrorCode {
     CODE_03("The arrival date cannot be later than the current date "),
     CODE_04("The height of the animal does not correspond to the physical characteristics of a turtle."),
     CODE_05("The weight of the animal does not correspond to the physical characteristics of a turtle."),
-    CODE_06("The age of the animal does not correspond to a turtle.")
+    CODE_06("The age of the animal does not correspond to a turtle."),
+    CODE_07("There is already an animal with that name")
     ;
 
     private String message;

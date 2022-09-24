@@ -16,7 +16,7 @@ public class AnimalDTO {
 
     private UUID id;
     private String name;
-    private boolean sex;
+    private char sex;
     private double weight;
     private int age;
     private double height;

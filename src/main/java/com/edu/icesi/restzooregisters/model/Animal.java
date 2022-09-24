@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
-@Table(name = "`animal`")
+@Table(name = "ANIMAL")
 @Entity
 @Builder
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class Animal {
 
     private UUID id;
     private String name;
-    private boolean sex;
+    private char sex;
     private double weight;
     private int age;
     private double height;
