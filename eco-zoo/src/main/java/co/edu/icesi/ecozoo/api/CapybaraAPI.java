@@ -1,5 +1,6 @@
 package co.edu.icesi.ecozoo.api;
 
+import co.edu.icesi.ecozoo.dto.AnimalResponseDTO;
 import co.edu.icesi.ecozoo.dto.CapybaraDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,10 @@ import java.util.UUID;
 public interface CapybaraAPI {
 
     @GetMapping("/{capybaraId}")
-    public CapybaraDTO getAnimal(@PathVariable UUID capybaraId);
+    public AnimalResponseDTO getAnimal(@PathVariable UUID capybaraId);
 
     @GetMapping("/name={capybaraName}")
-    public CapybaraDTO getAnimalByName(@PathVariable String capybaraName);
+    public AnimalResponseDTO getAnimalByName(@PathVariable String capybaraName);
 
     @PostMapping("")
     public CapybaraDTO createAnimal(@RequestBody CapybaraDTO capybaraDTO);

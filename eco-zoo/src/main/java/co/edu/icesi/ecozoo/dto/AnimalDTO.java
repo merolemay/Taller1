@@ -17,28 +17,26 @@ public class AnimalDTO {
 
     private UUID id;
 
-    @NotNull
-    @Size(min = 1, max = 120)
-    @Pattern(regexp = "[a-zA-Z]+\\w*[a-zA-Z]+")
+    @NotNull(message = "El nombre del animal no puede ser nulo")
+    @Size(min = 1, max = 120, message = "El nombre del animal debe tener entre 1 y 120 caracteres")
+    @Pattern(regexp = "[a-zA-Z]+\\w*[a-zA-Z]+", message = "El nombre del animal debe contener solo letras y espacios")
     private String name;
 
-    @NotNull
+    @NotNull(message = "La especie del animal no puede ser nula")
     private boolean sex;
 
     private Double weight;
 
-    @NotNull
+    @NotNull(message = "La edad del animal no puede ser nula")
     private int age;
 
     private Double height;
 
-    @NotNull
-    @PastOrPresent
+    @NotNull(message = "La fecha de llegada del animal no puede ser nula")
+    @PastOrPresent(message = "La fecha de llegada del animal debe ser anterior o igual a la fecha actual")
     private LocalDateTime arrivalDate;
 
-    @Valid
-    private UUID motherId;
+    private UUID motherID;
 
-    @Valid
-    private UUID fatherId;
+    private UUID fatherID;
 }

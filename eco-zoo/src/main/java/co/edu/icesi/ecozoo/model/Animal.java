@@ -1,5 +1,7 @@
 package co.edu.icesi.ecozoo.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(Include.NON_NULL)
 public class Animal {
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
