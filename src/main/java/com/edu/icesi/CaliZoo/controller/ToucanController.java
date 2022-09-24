@@ -21,8 +21,8 @@ public class ToucanController implements ToucanAPI {
     private final ToucanMapper toucanMapper;
 
     @Override
-    public List<ToucanDTO> getToucan(UUID toucanId) {
-        return toucanMapper.fromToucan(toucanService.getToucan(toucanId));
+    public List<ToucanDTO> getToucan(String toucanName) {
+        return toucanMapper.fromToucan(toucanService.getToucan(toucanName));
     }
 
     @Override

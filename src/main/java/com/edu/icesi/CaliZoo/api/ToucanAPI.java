@@ -9,8 +9,8 @@ import java.util.UUID;
 @RequestMapping("/toucans")
 public interface ToucanAPI {
 
-    @GetMapping("/{toucanId}")
-    public List<ToucanDTO> getToucan(@PathVariable UUID toucanId);
+    @GetMapping("/{toucanName}")
+    public List<ToucanDTO> getToucan(@PathVariable String toucanName);
 
     @PostMapping()
     public ToucanDTO createToucan(@RequestBody ToucanDTO toucanDTO);

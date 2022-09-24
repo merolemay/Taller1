@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface ToucanService {
 
-    public List<Toucan> getToucan(@PathVariable UUID toucanId);
+    public List<Toucan> getToucan(@PathVariable String toucanName);
     public Toucan createToucan(@RequestBody Toucan toucanDTO);
     public List<Toucan> getToucans();
 

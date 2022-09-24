@@ -18,17 +18,11 @@ public class ToucanServiceImpl implements ToucanService {
     public final ToucanRepository toucanRepository;
 
     @Override
-    public List<Toucan> getToucan(UUID toucanId) {
-        List<Toucan> toucanAndParents = new ArrayList<>();
-        toucanAndParents.add(toucanRepository.findById(toucanId).orElse(null));
-        if(toucanAndParents.get(0) != null){
-            UUID fatherId = toucanAndParents.get(0).getFatherId();
-            UUID motherId = toucanAndParents.get(0).getMotherId();
-            if(fatherId != null ) toucanAndParents.add(toucanRepository.findById(fatherId).orElse(null));
-            if(motherId != null ) toucanAndParents.add(toucanRepository.findById(motherId).orElse(null));
-        }//End if
-        return toucanAndParents;
-    }
+    public List<Toucan> getToucan(String toucanName) {
+        Toucan ChosenToucan = getToucans().stream().filter(toucan->toucan.getName().equalsIgnoreCase(toucanName))
+                .findFirst().get();
+        return getToucanParents(ChosenToucan);
+    }//End getToucan
 
     @Override
     public Toucan createToucan(Toucan toucanDTO) {
@@ -69,4 +63,14 @@ public class ToucanServiceImpl implements ToucanService {
                 throw new RuntimeException();
         }//End if
     }//End validateParentsSex
+
+    private List<Toucan> getToucanParents(Toucan toucan){
+        List<Toucan> toucanAndParents = new ArrayList<>();
+        toucanAndParents.add(toucan);
+        UUID fatherId = toucan.getFatherId();
+        UUID motherId = toucan.getMotherId();
+        if(fatherId != null ) toucanAndParents.add(toucanRepository.findById(fatherId).orElse(null));
+        if(motherId != null ) toucanAndParents.add(toucanRepository.findById(motherId).orElse(null));
+        return toucanAndParents;
+    }//End getToucanParents
 }//End ToucanServiceImpl
