@@ -15,14 +15,14 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CapybaraDTO extends AnimalDTO{
 
-    @DecimalMax(value = CapybaraConstraints.MAX_WEIGHT, message = "El peso del animal debe ser menor o igual a " + CapybaraConstraints.MAX_WEIGHT)
-    @DecimalMin(value = CapybaraConstraints.MIN_WEIGHT, message = "El peso del animal debe ser mayor o igual a " + CapybaraConstraints.MIN_WEIGHT)
+    @DecimalMax(value = CapybaraConstraints.MAX_WEIGHT, message = "The weight of the animal must be less or equal than " + CapybaraConstraints.MAX_WEIGHT)
+    @DecimalMin(value = CapybaraConstraints.MIN_WEIGHT, message = "The weight of the animal must be greater or equal than " + CapybaraConstraints.MIN_WEIGHT)
     private Double weight;
 
-    @Range(min = CapybaraConstraints.MIN_AGE, max = CapybaraConstraints.MAX_AGE, message = "La edad del animal debe ser mayor o igual a " + CapybaraConstraints.MIN_AGE + " y menor o igual a " + CapybaraConstraints.MAX_AGE)
+    @Range(min = CapybaraConstraints.MIN_AGE, max = CapybaraConstraints.MAX_AGE, message = "The age of the animal must be between " + CapybaraConstraints.MIN_AGE + " and " + CapybaraConstraints.MAX_AGE)
     private int age;
 
-    @DecimalMax(value = CapybaraConstraints.MAX_HEIGHT, message = "La altura del animal debe ser menor o igual a " + CapybaraConstraints.MAX_HEIGHT)
-    @DecimalMin(value = CapybaraConstraints.MIN_HEIGHT, message = "La altura del animal debe ser mayor o igual a " + CapybaraConstraints.MIN_HEIGHT)
+    @DecimalMax(value = CapybaraConstraints.MAX_HEIGHT, message = "The height of the animal must be less or equal than " + CapybaraConstraints.MAX_HEIGHT)
+    @DecimalMin(value = CapybaraConstraints.MIN_HEIGHT, message = "The height of the animal must be greater or equal than " + CapybaraConstraints.MIN_HEIGHT)
     private Double height;
 }
