@@ -1,7 +1,7 @@
 # ***Cali Zoo | Back End*** 💻️
 
 <p style="text-align: justify">
-    <i>Web application that allows it to register different types of animals that are exhibited in the cali zoo</i>
+    <i>Web application that allows it to register spectacled bears that are exhibited in the cali zoo</i>
 </p>
 
 ## ***Build With*** 🛠️
