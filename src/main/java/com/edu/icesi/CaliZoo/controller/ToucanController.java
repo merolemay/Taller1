@@ -1,10 +1,14 @@
 package com.edu.icesi.CaliZoo.controller;
 
 import com.edu.icesi.CaliZoo.api.ToucanAPI;
+import com.edu.icesi.CaliZoo.constants.ErrorCodes;
 import com.edu.icesi.CaliZoo.dto.ToucanDTO;
+import com.edu.icesi.CaliZoo.error.exception.ToucanError;
+import com.edu.icesi.CaliZoo.error.exception.ToucanException;
 import com.edu.icesi.CaliZoo.mapper.ToucanMapper;
 import com.edu.icesi.CaliZoo.service.ToucanService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -31,6 +35,7 @@ public class ToucanController implements ToucanAPI {
             throw new RuntimeException();
         verifyNameConstrains(toucanDTO.getName());
         verifyArrivalDate(toucanDTO.getDateOfArrival());
+        validateSexInBounds(toucanDTO.getSex());
         return toucanMapper.fromToucan(toucanService.createToucan(toucanMapper.fromDTO(toucanDTO)));
     }
 
@@ -41,11 +46,16 @@ public class ToucanController implements ToucanAPI {
 
     private void verifyNameConstrains(final String toucanName){
         if(toucanName.matches("([^A-Za-z ])"))
-            throw new RuntimeException();
+            throw new ToucanException(HttpStatus.BAD_REQUEST,new ToucanError(ErrorCodes.INVALID_FORMAT.getCode(),"Name contains invalid characters"));
     }//End verifyNameConstrains
 
     private void verifyArrivalDate(LocalDate arrivalDate){
        if(arrivalDate == null || arrivalDate.compareTo(LocalDate.now()) > 0)
-           throw new RuntimeException();
+           throw new ToucanException(HttpStatus.BAD_REQUEST,new ToucanError(ErrorCodes.INVALID_FORMAT.getCode(), "Date couldn't be greater than the current date"));
     }//End verifyArrivalDate
+
+    private void validateSexInBounds(final String toucanSex){
+        if(!toucanSex.toUpperCase().matches("(F|M)"))
+            throw new ToucanException(HttpStatus.BAD_REQUEST,new ToucanError(ErrorCodes.INVALID_FORMAT.getCode(), "Sex has to be 'F' to female or 'M' to male"));
+    }//End checkSex
 }//End ToucanController

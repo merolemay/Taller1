@@ -1,10 +1,13 @@
 package com.edu.icesi.CaliZoo.service.impl;
 
-import com.edu.icesi.CaliZoo.constants.ToucanProperties;
+import com.edu.icesi.CaliZoo.constants.ErrorCodes;
+import com.edu.icesi.CaliZoo.error.exception.ToucanError;
+import com.edu.icesi.CaliZoo.error.exception.ToucanException;
 import com.edu.icesi.CaliZoo.model.Toucan;
 import com.edu.icesi.CaliZoo.repository.ToucanRepository;
 import com.edu.icesi.CaliZoo.service.ToucanService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,17 +22,20 @@ public class ToucanServiceImpl implements ToucanService {
 
     @Override
     public List<Toucan> getToucan(String toucanName) {
-        Toucan ChosenToucan = getToucans().stream().filter(toucan->toucan.getName().equalsIgnoreCase(toucanName))
-                .findFirst().get();
-        return getToucanParents(ChosenToucan);
+        try{
+            Toucan ChosenToucan = getToucans().stream().filter(toucan->toucan.getName().equalsIgnoreCase(toucanName))
+                    .findFirst().get();
+            return getToucanParents(ChosenToucan);
+        }catch (NoSuchElementException e){
+            throw new ToucanException(HttpStatus.BAD_REQUEST,new ToucanError(ErrorCodes.NOT_FOUND.getCode(), "There is not a toucan with the name "+toucanName));
+        }//End try..catch
     }//End getToucan
 
     @Override
     public Toucan createToucan(Toucan toucanDTO) {
         if(toucanDTO == null)
-            throw new RuntimeException();
+            throw new ToucanException(HttpStatus.BAD_REQUEST,new ToucanError(ErrorCodes.BAD_DATA.getCode(), "Null data is not valid to create a Toucan"));
         thereIsToucanWithName(toucanDTO.getName());
-        validateSexInBounds(toucanDTO.getSex());
         validateParentSex(toucanDTO.getMotherId(),"F");
         validateParentSex(toucanDTO.getFatherId(),"M");
         return toucanRepository.save(toucanDTO);
@@ -43,20 +49,15 @@ public class ToucanServiceImpl implements ToucanService {
     private void thereIsToucanWithName(final String toucanName){
         try{
             getToucans().stream().filter(toucan->toucan.getName().equalsIgnoreCase(toucanName)).findFirst().get();
-            throw new RuntimeException();
+            throw new ToucanException(HttpStatus.BAD_REQUEST,new ToucanError(ErrorCodes.BAD_DATA.getCode(), "There is already a Toucan with that name"));
         }catch (NoSuchElementException e){System.out.println("No existe un tucan con ese nombre :)");}
     }//End thereIsToucanWithName
-
-    private void validateSexInBounds(final String toucanSex){
-        if(!toucanSex.toUpperCase().matches("(F|M)"))
-            throw new RuntimeException();
-    }//End checkSex
 
     private void validateParentSex(UUID parentId, String sex){
         if(parentId != null){
             Optional<Toucan> parent = toucanRepository.findById(parentId);
-            if(!parent.get().getSex().toUpperCase().matches(sex))
-                throw new RuntimeException();
+            if(parent.isPresent() && !parent.get().getSex().toUpperCase().matches(sex))
+                throw new ToucanException(HttpStatus.BAD_REQUEST,new ToucanError(ErrorCodes.BAD_DATA.getCode(), "Invalid parent sex"));
         }//End if
     }//End validateParentsSex
 
