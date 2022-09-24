@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,9 +21,9 @@ public class AnimalRepositoryTest {
 
     @Test
     public void whenCalledSave_thenCorrectNumberOfUsers() {
-        Animal animal = Animal.builder().name("Luna").sex(AnimalGender.M).age(10).height(12).weight(150).arrivalDate(Date.valueOf(LocalDate.now())).build();
+        Animal animal = Animal.builder().name("Luna").sex(AnimalGender.M).age(10).height(12).weight(150).arrivalDate(LocalDateTime.now()).build();
         animalRepository.save(animal);
-        Animal animals = Animal.builder().name("Lupe").sex(AnimalGender.M).age(10).height(12).weight(150).arrivalDate(Date.valueOf(LocalDate.now())).build();
+        Animal animals = Animal.builder().name("Lupe").sex(AnimalGender.M).age(10).height(12).weight(150).arrivalDate(LocalDateTime.now()).build();
         animalRepository.save(animals);
         List<Animal> a = (List<Animal>) animalRepository.findAll();
 
