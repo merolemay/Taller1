@@ -20,7 +20,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.edu.icesi.conceptsreview.constant.AnimalsErrorCodes.*;
-import static com.edu.icesi.conceptsreview.constant.Errors.*;
 
 @RestController
 @AllArgsConstructor
@@ -50,19 +49,19 @@ public class AnimalController implements AnimalsAPI {
     }
     private void verifyNameLength(String name) {
         if(name.length() > 120) {
-            throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_01, MSG_CODE_01));
+            throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_01, CODE_01.getMessage()));
         }
     }
     private void verifyNameContent(String name) {
         if(!name.matches(regexForValidateNames)) {
             throw new AnimalException(HttpStatus.BAD_REQUEST,
-                    new AnimalError(CODE_05, MSG_CODE_05));
+                    new AnimalError(CODE_05, CODE_05.getMessage()));
         }
     }
     private void validateDateOfEntry(LocalDateTime dateArrive) {
         if(dateArrive.isBefore(LocalDateTime.now())) {
             throw new AnimalException(HttpStatus.BAD_REQUEST,
-                    new AnimalError(CODE_06, MSG_CODE_06));
+                    new AnimalError(CODE_06, CODE_06.getMessage()));
         }
     }
 

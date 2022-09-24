@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.edu.icesi.conceptsreview.constant.AnimalsErrorCodes.*;
-import static com.edu.icesi.conceptsreview.constant.Errors.*;
+import static com.edu.icesi.conceptsreview.constant.GeneralConstantsForVerifications.*;
 
 @Service
 @AllArgsConstructor
@@ -44,13 +44,16 @@ public class AnimalServiceImpl implements AnimalService {
         verifyAnimalAlreadyExistsByID(animalDTO.getMotherId(), " mother id");
         verifyAnimalGenre(animalDTO.getMotherId(), "W", ": mother");
 
+        verifyWeight(animalDTO.getWeight());
+        verifyLength(animalDTO.getHeight());
+
         return animalRepository.save(animalDTO);
     }
 
     @Override
     public Animal getAnimal(UUID animalId) {
         return animalRepository.findById(animalId).orElseThrow(
-                () -> new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_02, MSG_CODE_02)));
+                () -> new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_02, CODE_02.getMessage())));
     }
 
     @Override
@@ -66,7 +69,7 @@ public class AnimalServiceImpl implements AnimalService {
         List<Animal> animalsCreated = getAnimals();
         for (Animal animal : animalsCreated) {
             if(animal.getName().equalsIgnoreCase(animalDTO.getName())) {
-                throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_03, MSG_CODE_03));
+                throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_03, CODE_03.getMessage()));
             }
         }
     }
@@ -77,7 +80,7 @@ public class AnimalServiceImpl implements AnimalService {
         }
         if(getAnimal(animalId) == null) {
             throw new AnimalException(HttpStatus.BAD_REQUEST,
-                    new AnimalError(CODE_02, MSG_CODE_02 + optionalMsg));
+                    new AnimalError(CODE_02, CODE_02.getMessage() + optionalMsg));
         }
         return 0;
     }
@@ -89,8 +92,22 @@ public class AnimalServiceImpl implements AnimalService {
         Animal animal = getAnimal(animalId);
         if(!animal.getGender().equalsIgnoreCase(genre)) {
             throw new AnimalException(HttpStatus.BAD_REQUEST,
-                    new AnimalError(CODE_04, MSG_CODE_04 + optionalMessage));
+                    new AnimalError(CODE_04, CODE_04.getMessage() + optionalMessage));
         }
         return 0;
+    }
+
+    private void verifyWeight(float weight) {
+        if(weight > MAX_WEIGHT_KG || weight < MIN_WEIGHT_KG) {
+            throw new AnimalException(HttpStatus.BAD_REQUEST,
+                    new AnimalError(CODE_07, CODE_07.getMessage()));
+        }
+    }
+
+    private void verifyLength(float length) {
+        if(length > MAX_LENGTH_CM || length < MIN_LENGTH_CM) {
+            throw new AnimalException(HttpStatus.BAD_REQUEST,
+                    new AnimalError(CODE_08, CODE_08.getMessage()));
+        }
     }
 }
