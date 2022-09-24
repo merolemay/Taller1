@@ -21,8 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<AnimalError> handleAnnotationException(MethodArgumentNotValidException methodArgumentNotValidException){
-        AnimalException animalException = new AnimalException(HttpStatus.BAD_REQUEST,new AnimalError(AnimalErrorCode.CODE_05, Objects.requireNonNull(methodArgumentNotValidException.getFieldError()).getDefaultMessage()));
+        AnimalException animalException = new AnimalException(HttpStatus.BAD_REQUEST,new AnimalError(AnimalErrorCode.CODE_06, Objects.requireNonNull(methodArgumentNotValidException.getFieldError()).getDefaultMessage()));
         return new ResponseEntity<>(animalException.getError(), animalException.getHttpStatus());
     }
-
 }

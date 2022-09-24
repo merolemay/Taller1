@@ -8,10 +8,11 @@ import lombok.Getter;
 public enum AnimalErrorCode {
 
     CODE_01("Animal not found"),
-    CODE_02("The parents must be different"),
-    CODE_03("The parents must have different sex"),
-    CODE_04("The name must be unique"),
-    CODE_05("An argument is invalid");
+    CODE_02("The parent must exist in the database"),
+    CODE_03("The mother must be a female"),
+    CODE_04("The father must be a male"),
+    CODE_05("The name must be unique"),
+    CODE_06("An argument is invalid");
 
-    private String message;
+    private final String message;
 }
