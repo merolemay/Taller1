@@ -40,4 +40,9 @@ public class Animal {
 
     private Date arrivalDate;
 
+    @Override
+    public String toString() {
+        return id + " " + name + " " + maleParentId + " " + femaleParentId;
+    }
+
 }

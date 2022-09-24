@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,8 +26,8 @@ public class AnimalController implements AnimalAPI {
     private final int MAX_NAME_LENGTH = 120;
 
     @Override
-    public List<AnimalDTO> getAnimal(UUID animalId) {
-        return animalService.getAnimal(animalId).stream().map(animalMapper::fromAnimal).collect(Collectors.toList());
+    public List<AnimalDTO> getAnimal(String animalName) {
+        return animalService.getAnimal(animalName).stream().map(animalMapper::fromAnimal).collect(Collectors.toList());
     }
 
     @Override

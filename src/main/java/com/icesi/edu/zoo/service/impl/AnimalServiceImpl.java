@@ -11,10 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -26,20 +24,26 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
 
     @Override
-    public List<Animal> getAnimal(UUID animalId) {
-        return createFamilyList(animalId);
+    public List<Animal> getAnimal(String animalName) {
+        return createFamilyList(animalName);
     }
 
-    private List<Animal> createFamilyList(UUID animalId) {
+    private List<Animal> createFamilyList(String animalName) {
         List<Animal> family = new ArrayList<>();
-        Animal child = animalRepository.findById(animalId).orElse(null);
+        Animal child = getAnimalByName(animalName);
         if(child != null) {
             family.add(child);
-            family.add(animalRepository.findById(child.getMaleParentId()).orElse(null));
-            family.add(animalRepository.findById(child.getFemaleParentId()).orElse(null));
+            if(child.getMaleParentId() != null)
+                family.add(animalRepository.findById(child.getMaleParentId()).orElse(null));
+            if(child.getFemaleParentId() != null)
+                family.add(animalRepository.findById(child.getFemaleParentId()).orElse(null));
             family.removeAll(Collections.singleton(null));
         }
         return family;
+    }
+
+    private Animal getAnimalByName(String animalName) {
+        return getAnimals().stream().peek(System.out::println).filter(a -> a.getName().equalsIgnoreCase(animalName)).findFirst().orElse(null);
     }
 
     @Override
@@ -59,7 +63,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     private boolean animalExists(UUID animalId) {
-        return animalRepository.findById(animalId).isPresent();
+        return animalId == null || animalRepository.findById(animalId).isPresent();
     }
 
     private boolean checkParentSex(UUID animalId, String sex) {
