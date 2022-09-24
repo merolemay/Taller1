@@ -24,10 +24,12 @@ public class AnimalController implements AnimalAPI {
     @Override
     public AnimalDTO createAnimal(AnimalDTO animalDTO) {
         validateAllFieldsNotNull(animalDTO);
-        validateAnimalNameLength(animalDTO.getName());
-        validateAnimalNameCharacters(animalDTO.getName());
+        validateAnimalNameLength(animalDTO);
+        validateAnimalNameCharacters(animalDTO);
         validateSexOfFather(animalDTO);
         validateSexOfMother(animalDTO);
+        validateAnimalWeight(animalDTO);
+        validateAnimalHeight(animalDTO);
         return animalService.getDTOFromAnimal(animalService.createAnimal(animalService.getAnimalFromDTO(animalDTO)));
     }
 
@@ -56,14 +58,24 @@ public class AnimalController implements AnimalAPI {
         return true;
     }
 
-    private void validateAnimalNameLength(String animalName) {
-        if (animalName.length() > 120)
+    private void validateAnimalNameLength(AnimalDTO animalDTO) {
+        if (animalDTO.getName().length() > 120)
             throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_04, AnimalErrorCode.CODE_04.getMessage()));
     }
 
-    private void validateAnimalNameCharacters(String animalName) {
-        if (!animalName.matches("[a-zA-Z ]+"))
-            throw new RuntimeException();
+    private void validateAnimalNameCharacters(AnimalDTO animalDTO) {
+        if (!animalDTO.getName().matches("[a-zA-Z ]+"))
+            throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_06, AnimalErrorCode.CODE_06.getMessage()));
+    }
+
+    private void validateAnimalWeight(AnimalDTO animalDTO) {
+        if (animalDTO.getWeight() < 0.3 || animalDTO.getWeight() > 200)
+            throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_07, AnimalErrorCode.CODE_07.getMessage()));
+    }
+
+    private void validateAnimalHeight(AnimalDTO animalDTO) {
+        if (animalDTO.getHeight() < 0.1 || animalDTO.getWeight() > 2)
+            throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_08, AnimalErrorCode.CODE_08.getMessage()));
     }
 
     @Override
