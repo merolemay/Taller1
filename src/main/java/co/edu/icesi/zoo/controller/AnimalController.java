@@ -87,7 +87,7 @@ public class AnimalController implements AnimalZooAPI {
 
         if(parentId!=null&&!parentId.matches(UtilConstant.UUID_REGEX))
             AnimalExceptionUtils.throwAnimalException(HttpStatus.BAD_REQUEST, AnimalErrorCode.CODE_06, AnimalErrorMsgs.INVALID_ID);
-        
+
     }
 
 }

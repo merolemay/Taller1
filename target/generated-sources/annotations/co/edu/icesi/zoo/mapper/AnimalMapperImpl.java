@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-09-24T11:51:03-0500",
+    date = "2022-09-24T12:04:33-0500",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.11 (AdoptOpenJDK)"
 )
 @Component
@@ -31,7 +31,7 @@ public class AnimalMapperImpl implements AnimalMapper {
         }
         animal.name( animalDTO.getName() );
         animal.sex( animalDTO.getSex() );
-        animal.weight( (int) animalDTO.getWeight() );
+        animal.weight( animalDTO.getWeight() );
         animal.age( animalDTO.getAge() );
         animal.height( animalDTO.getHeight() );
         if ( animalDTO.getArrivalDate() != null ) {
