@@ -1,13 +1,17 @@
 package co.edu.icesi.zoo.model;
 
 import co.edu.icesi.zoo.constant.AnimalGender;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Data
@@ -39,7 +43,8 @@ public class Animal {
     private double weight;
 
     @Column(columnDefinition = "date", nullable = false)
-    private Date arrivalDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime arrivalDate;
 
     @Column(columnDefinition = "UUID")
     private UUID father_id;

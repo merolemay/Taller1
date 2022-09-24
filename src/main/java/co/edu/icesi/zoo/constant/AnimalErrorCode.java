@@ -14,7 +14,8 @@ public enum AnimalErrorCode {
     CODE_05("Animal father or mother does not exists"),
     CODE_06("Animal name should contain only letters and spaces"),
     CODE_07("The weight of the animal is not realistic"),
-    CODE_08("The height of the animal is not realistic");
+    CODE_08("The height of the animal is not realistic"),
+    CODE_09("The arrival date can't be a future date");
 
     private final String message;
 }

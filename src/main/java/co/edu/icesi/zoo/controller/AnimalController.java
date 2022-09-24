@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ public class AnimalController implements AnimalAPI {
         validateSexOfMother(animalDTO);
         validateAnimalWeight(animalDTO);
         validateAnimalHeight(animalDTO);
+        validateArrivalDate(animalDTO);
         return animalService.getDTOFromAnimal(animalService.createAnimal(animalService.getAnimalFromDTO(animalDTO)));
     }
 
@@ -76,6 +78,11 @@ public class AnimalController implements AnimalAPI {
     private void validateAnimalHeight(AnimalDTO animalDTO) {
         if (animalDTO.getHeight() < 0.1 || animalDTO.getWeight() > 2)
             throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_08, AnimalErrorCode.CODE_08.getMessage()));
+    }
+
+    private void validateArrivalDate(AnimalDTO animalDTO) {
+        if (LocalDateTime.now().isBefore(animalDTO.getArrivalDate()))
+            throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_09, AnimalErrorCode.CODE_09.getMessage()));
     }
 
     @Override

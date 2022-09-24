@@ -23,7 +23,7 @@
             <column name="weight" type="double">
                 <constraints nullable="false"/>
             </column>
-            <column name="arrival_date" type="date">
+            <column name="arrival_date" type="datetime">
                 <constraints nullable="false"/>
             </column>
             <column name="father_id" type="UUID">
