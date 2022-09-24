@@ -38,6 +38,8 @@ public class ToucanServiceImpl implements ToucanService {
         thereIsToucanWithName(toucanDTO.getName());
         validateParentSex(toucanDTO.getMotherId(),"F");
         validateParentSex(toucanDTO.getFatherId(),"M");
+        thereIsParent(toucanDTO.getFatherId());
+        thereIsParent(toucanDTO.getMotherId());
         return toucanRepository.save(toucanDTO);
     }//End createToucan
 
@@ -70,4 +72,9 @@ public class ToucanServiceImpl implements ToucanService {
         if(motherId != null ) toucanAndParents.add(toucanRepository.findById(motherId).orElse(null));
         return toucanAndParents;
     }//End getToucanParents
+
+    private void thereIsParent(UUID parentId){
+        if(parentId != null && toucanRepository.findById(parentId).orElse(null) == null)
+            throw new ToucanException(HttpStatus.BAD_REQUEST, new ToucanError(ErrorCodes.BAD_DATA.getCode(), "There is not a parent with that ID"));
+    }//End thereIsParent
 }//End ToucanServiceImpl
