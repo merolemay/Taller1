@@ -30,8 +30,8 @@ public class AnimalController implements RestZooRegistersAPI {
     public final AnimalMapper animalMapper;
 
     @Override
-    public AnimalDTO getAnimal(String animalName) {
-        return animalMapper.fromAnimal(animalService.getAnimal(animalName));
+    public List<AnimalDTO> getAnimal(String animalName) {
+        return animalService.getAnimal(animalName).stream().map(animalMapper::fromAnimal).collect(Collectors.toList());
     }
 
     @Override
@@ -78,7 +78,7 @@ public class AnimalController implements RestZooRegistersAPI {
     }
 
     private void validateAnimalAge(int age){
-        if(!(0<age && age<MAX_AGE)){
+        if(!(0<age && age<=MAX_AGE)){
             throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_06, CODE_06.getMessage()));
         }
     }

@@ -9,7 +9,7 @@ import java.util.UUID;
 @RequestMapping("/zooregisters")
 public interface RestZooRegistersAPI {
     @GetMapping("/{animalName}")
-    public AnimalDTO getAnimal(@PathVariable String animalName );
+    public List<AnimalDTO> getAnimal(@PathVariable String animalName );
 
     @PostMapping()
     public AnimalDTO createAnimal(@RequestBody AnimalDTO animalDTO);
