@@ -25,9 +25,6 @@ public class AnimalDTO {
     @Pattern(regexp = "[a-zA-Z]+\\w*[a-zA-Z]+", message = "Name shouldn't contain any special char's")
     private String name;
 
-    @NotNull(message = "Sex can't be empty")
-    private boolean sex;
-
     @NotNull(message = "Age can't be empty")
     private int age;
 
@@ -36,6 +33,8 @@ public class AnimalDTO {
     private LocalDateTime arrivalDate;
 
     private float height;
+
+    private boolean sex;
 
     private float weight;
 
