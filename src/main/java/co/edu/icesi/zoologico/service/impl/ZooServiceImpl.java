@@ -1,0 +1,112 @@
+package co.edu.icesi.zoologico.service.impl;
+
+import co.edu.icesi.zoologico.dto.AnimalParentsDTO;
+import co.edu.icesi.zoologico.dto.AnimalWithParentsDTO;
+import co.edu.icesi.zoologico.error.exception.AnimalDemoError;
+import co.edu.icesi.zoologico.error.exception.AnimalDemoException;
+import co.edu.icesi.zoologico.mapper.AnimalMapper;
+import co.edu.icesi.zoologico.model.Animal;
+import co.edu.icesi.zoologico.model.Gender;
+import co.edu.icesi.zoologico.repository.ZooRepository;
+import co.edu.icesi.zoologico.service.ZooService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+@Service
+@AllArgsConstructor
+public class ZooServiceImpl implements ZooService {
+
+    private final AnimalMapper animalMapper;
+
+    public final ZooRepository zooRepository;
+
+
+
+    @Override
+    public AnimalWithParentsDTO getAnimalByName(String animalName) {
+        System.out.println("Entra al getAnimal");
+
+        List<Animal> animalListDB= StreamSupport.stream(zooRepository.findAll().spliterator(),false).collect(Collectors.toList());
+        Animal animal= new Animal();
+        Animal animalMother= new Animal();
+        Animal animalFather= new Animal();
+
+        for (Animal animalDB: animalListDB ) {
+            if (animalDB.getName().equals(animalName)){
+                animal=animalDB;
+                animalMother= getAnimalParent(animalDB.getMother());
+                animalFather= getAnimalParent(animalDB.getFather());
+                break;
+            }
+        }
+        AnimalParentsDTO animalMotherDTO = animalMapper.fromAnimalParent(animalMother);
+        AnimalParentsDTO animalFatherDTO = animalMapper.fromAnimalParent(animalFather);
+
+        return animalMapper.fromAnimalAndParentsDTO(animal,animalMotherDTO,animalFatherDTO);
+    }
+
+    private Animal getAnimalParent(UUID fatherId){
+        return zooRepository.findById(fatherId).orElse(null);
+
+    }
+
+
+    @Override
+    public Animal createAnimal(Animal animal) {
+
+        verifyNameRepeated(animal.getName());
+        verifyFatherIdIsCorrect(animal.getFather());
+        verifyMotherIdIsCorrect(animal.getMother());
+        return zooRepository.save(animal);
+    }
+
+
+    @Override
+    public List<Animal> getAnimals() {
+        return StreamSupport.stream(zooRepository.findAll().spliterator(),false).collect(Collectors.toList());
+    }
+
+    public void verifyNameRepeated(String animalName){
+        for (Animal i:getAnimals()) {
+            if (i.getName().equals(animalName)){
+                throw new AnimalDemoException(HttpStatus.BAD_REQUEST, new AnimalDemoError("1234","Throw UserDemoException - Name repeated in the database"));
+            }
+        }
+    }
+
+    public void verifyMotherIdIsCorrect(UUID animalMotherId){
+
+        if( (animalMotherId!=null) && (animalMotherId.toString().equals("")) ){
+
+            Animal animalMother =zooRepository.findById(animalMotherId).orElse(null);
+            if (animalMother==null){
+                throw new AnimalDemoException(HttpStatus.BAD_REQUEST, new AnimalDemoError("1234","Throw AnimalDemoException - Mother not exist"));
+            }
+            if (!animalMother.getGender().equals(Gender.GENDER_FEMALE)){
+                throw new AnimalDemoException(HttpStatus.BAD_REQUEST, new AnimalDemoError("1234","Throw AnimalDemoException - Mother is Male"));
+            }
+        }
+    }
+
+
+    public void verifyFatherIdIsCorrect(UUID animalFatherId){
+
+        if ( (animalFatherId!=null) && (!animalFatherId.toString().equals("")) ){
+            Animal animalFather = zooRepository.findById(animalFatherId).orElse(null);
+            if (animalFather == null) {
+                throw new AnimalDemoException(HttpStatus.BAD_REQUEST, new AnimalDemoError("1234", "Throw AnimalDemoException - Father not exist"));
+            }
+            if (!animalFather.getGender().equals(Gender.GENDER_MALE)) {
+                throw new AnimalDemoException(HttpStatus.BAD_REQUEST, new AnimalDemoError("1234", "Throw AnimalDemoException - Father is Female"));
+            }
+        }
+    }
+
+
+}
