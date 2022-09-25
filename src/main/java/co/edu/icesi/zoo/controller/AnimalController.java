@@ -76,7 +76,7 @@ public class AnimalController implements AnimalAPI {
     }
 
     private void validateAnimalHeight(AnimalDTO animalDTO) {
-        if (animalDTO.getHeight() < 0.1 || animalDTO.getWeight() > 2)
+        if (animalDTO.getHeight() < 0.1 || animalDTO.getHeight() > 2)
             throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(AnimalErrorCode.CODE_08, AnimalErrorCode.CODE_08.getMessage()));
     }
 
