@@ -46,7 +46,7 @@ public class SuricatoController implements SuricatoAPI {
         return suricatoServiceImpl.getSuricatosParents(suricatoId);
     }
     private void dateValidate(LocalDateTime dateArrive) {
-        if(dateArrive.isBefore(LocalDateTime.now())) {
+        if(dateArrive.isAfter(LocalDateTime.now())) {
             throw new SuricatoException(HttpStatus.BAD_REQUEST,
                     new SuricatoError(CODE_06, CODE_06.getMessage()));
         }
