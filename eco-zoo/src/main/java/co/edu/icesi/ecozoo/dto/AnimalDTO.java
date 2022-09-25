@@ -1,5 +1,6 @@
 package co.edu.icesi.ecozoo.dto;
 
+import co.edu.icesi.ecozoo.constant.AnimalSex;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class AnimalDTO {
     private String name;
 
     @NotNull(message = "The sex of the animal cannot be null")
-    private boolean sex;
+    private AnimalSex sex;
 
     private Double weight;
 

@@ -1,5 +1,6 @@
 package co.edu.icesi.ecozoo.mapper;
 
+import co.edu.icesi.ecozoo.constant.AnimalSex;
 import co.edu.icesi.ecozoo.dto.AnimalDTO;
 import co.edu.icesi.ecozoo.dto.AnimalResponseDTO;
 import co.edu.icesi.ecozoo.dto.CapybaraDTO;
@@ -29,4 +30,11 @@ public interface AnimalMapper {
     @Mapping(source = "mother", target = "mother")
     AnimalResponseDTO toAnimalResponseDTO(Animal child, Animal father, Animal mother);
 
+    default boolean sexAnimalToBoolean(AnimalSex sex) {
+        return sex.isValue();
+    }
+
+    default AnimalSex booleanToSexAnimalT(boolean sex) {
+        return sex ? AnimalSex.FEMALE:AnimalSex.MALE;
+    }
 }

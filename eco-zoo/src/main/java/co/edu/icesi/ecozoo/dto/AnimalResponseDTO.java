@@ -1,5 +1,6 @@
 package co.edu.icesi.ecozoo.dto;
 
+import co.edu.icesi.ecozoo.constant.AnimalSex;
 import co.edu.icesi.ecozoo.model.Animal;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -21,7 +22,7 @@ public class AnimalResponseDTO {
 
     private String name;
 
-    private boolean sex;
+    private AnimalSex sex;
 
     private Double weight;
 
