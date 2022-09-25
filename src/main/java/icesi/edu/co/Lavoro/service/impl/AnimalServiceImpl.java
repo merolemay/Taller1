@@ -64,9 +64,9 @@ public class  AnimalServiceImpl implements AnimalService {
         }
     }
 
-    private void verifyFatherSex(UUID mID) {
-        if(mID!=null) {
-            Animal father = getAnimal(mID);
+    private void verifyFatherSex(UUID fID) {
+        if(fID!=null) {
+            Animal father = getAnimal(fID);
             if(father.isSex() != AnimalSexCode.MALE.isValue())
                 throw new AnimalDemoException(HttpStatus.BAD_REQUEST,
                         new AnimalDemoError(AnimalErrorCode.CODE_UD_04, AnimalErrorCode.CODE_UD_04.getMessage()));
