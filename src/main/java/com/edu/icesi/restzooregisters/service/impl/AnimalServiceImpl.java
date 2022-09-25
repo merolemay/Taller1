@@ -69,21 +69,12 @@ public class AnimalServiceImpl implements AnimalService {
     public Animal updateAnimal(Animal animal) {
         Animal searchedAnimal = getAnimalByName(animal.getName());
         if(searchedAnimal != null){
+            verificateNotNull(searchedAnimal,animal);
             validateCreation(animal);
             animal.setId(searchedAnimal.getId());
-            verificateNotNull(searchedAnimal,animal);
             return animalRepository.save(animal);
         }
         throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_01,CODE_01.getMessage()));
-    }
-
-    private void verificateNotNull(Animal searched,Animal newAnimal){
-        if(newAnimal.getMotherID()==null){
-            newAnimal.setMotherID(searched.getMotherID());
-        }
-        if(newAnimal.getFatherID()==null){
-            newAnimal.setFatherID(searched.getFatherID());
-        }
     }
 
     private void validateCreation(Animal animal){ //False for male. True for female
@@ -116,5 +107,32 @@ public class AnimalServiceImpl implements AnimalService {
             }
         }
         return false;
+    }
+
+    private void verificateNotNull(Animal searched,Animal newAnimal){
+        if(newAnimal.getMotherID()==null){
+            newAnimal.setMotherID(searched.getMotherID());
+        }
+        if(newAnimal.getFatherID()==null){
+            newAnimal.setFatherID(searched.getFatherID());
+        }
+        if(newAnimal.getName()==null){
+            newAnimal.setName(searched.getName());
+        }
+        if(newAnimal.getSex()==' '){
+            newAnimal.setSex(searched.getSex());
+        }
+        if(newAnimal.getAge()==0){
+            newAnimal.setAge(searched.getAge());
+        }
+        if(newAnimal.getHeight()==0){
+            newAnimal.setHeight(searched.getHeight());
+        }
+        if(newAnimal.getWeight()==0){
+            newAnimal.setWeight(searched.getWeight());
+        }
+        if(newAnimal.getArrivalDate()==null){
+            newAnimal.setArrivalDate(searched.getArrivalDate());
+        }
     }
 }
