@@ -31,7 +31,7 @@ public class AnimalController implements AnimalAPI {
         return animalMapper.fromAnimal(animalService.getAnimal(animalID)); }
         else {
             throw new AnimalDemoException(HttpStatus.BAD_REQUEST,
-                    new AnimalDemoError(""+AnimalErrorCode.CODE_UD_01,"The name shouldn't be null"));
+                    new AnimalDemoError(AnimalErrorCode.CODE_UD_01,AnimalErrorCode.CODE_UD_01.getMessage()));
         }
     }
 
@@ -41,7 +41,7 @@ public class AnimalController implements AnimalAPI {
             return animalMapper.fromAnimal(animalService.getAnimalByName(animalID)); }
         else {
             throw new AnimalDemoException(HttpStatus.BAD_REQUEST,
-                    new AnimalDemoError(""+AnimalErrorCode.CODE_UD_01,"The name shouldn't be null"));
+                    new AnimalDemoError(AnimalErrorCode.CODE_UD_01,AnimalErrorCode.CODE_UD_01.getMessage()));
         }
     }
 
@@ -63,13 +63,13 @@ public class AnimalController implements AnimalAPI {
     private void wordLengthFormatChecker(String word) {
         if(word==null || word.length()>120) {
             throw new AnimalDemoException(HttpStatus.LENGTH_REQUIRED,
-                    new AnimalDemoError(""+ AnimalErrorCode.CODE_UD_01,"Thw word length should not be longer than 120 chars"));
+                    new AnimalDemoError(AnimalErrorCode.CODE_UD_01,AnimalErrorCode.CODE_UD_01.getMessage()));
         }
     }
 
     private void verifyWordFormat(String s) {
         if(s==null || !s.matches("[a-zA-Z]+\\w*[a-zA-Z]+"))
             throw new AnimalDemoException(HttpStatus.BAD_REQUEST,
-                    new AnimalDemoError(""+AnimalErrorCode.CODE_UD_01,"The name shouldn't contain spaces"));
+                    new AnimalDemoError(AnimalErrorCode.CODE_UD_01,AnimalErrorCode.CODE_UD_01.getMessage()));
     }
 }

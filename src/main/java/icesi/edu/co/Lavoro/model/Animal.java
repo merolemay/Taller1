@@ -30,7 +30,7 @@ public class Animal {
 
     private String name;
 
-    private String sex;
+    private boolean sex;
 
     private float weight;
 

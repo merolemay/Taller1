@@ -26,7 +26,7 @@ public class AnimalDTO {
     private String name;
 
     @NotNull(message = "Sex can't be empty")
-    private String sex;
+    private boolean sex;
 
     @NotNull(message = "Age can't be empty")
     private int age;
