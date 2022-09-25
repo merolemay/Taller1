@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!-- Refer to https://docs.liquibase.com/change-types/community/create-table.html -->
+
+    <changeSet id="33d4e9bc-7210-47c3-9617-c56ab7c0750d" author="alex.sanchez" failOnError="true">
+
+        <createTable tableName="hyena">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(255)" />
+            <column name="sex" type="varchar(255)" />
+            <column name="weight" type="double" />
+            <column name="age" type="varchar(255)" />
+            <column name="height" type="integer" />
+            <column name="arrival_date" type="date" />
+            <column name="father_id" type="UUID">
+                <constraints nullable="true" foreignKeyName="fk_father_id" referencedTableName="hyena" referencedColumnNames="id"/>
+            </column>
+            <column name="mother_id" type="UUID">
+                <constraints nullable="true" foreignKeyName="fk_mother_id" referencedTableName="hyena" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
