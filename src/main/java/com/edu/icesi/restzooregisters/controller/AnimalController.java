@@ -45,6 +45,12 @@ public class AnimalController implements RestZooRegistersAPI {
         return animalService.getAnimals().stream().map(animalMapper::fromAnimal).collect(Collectors.toList());
     }
 
+    @Override
+    public AnimalDTO updateAnimal(String animalName, AnimalDTO animalDTO) {
+        allAnimalValidations(animalDTO);
+        return animalMapper.fromAnimal(animalService.updateAnimal(animalMapper.fromDTO(animalName,animalDTO)));
+    }
+
     private void allAnimalValidations(AnimalDTO animalDTO){
         validateName(animalDTO.getName());
         validateDate(animalDTO.getArrivalDate());

@@ -12,4 +12,5 @@ public interface AnimalService {
     public List<Animal> getAnimal(@PathVariable String animalName );
     public Animal createAnimal(@RequestBody Animal animal);
     public List<Animal> getAnimals();
+    public Animal updateAnimal(Animal animal);
 }

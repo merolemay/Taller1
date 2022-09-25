@@ -16,4 +16,7 @@ public interface RestZooRegistersAPI {
 
     @GetMapping
     public List<AnimalDTO> getAnimals();
+
+    @PostMapping("/{animalName}") //Created for parents update
+    AnimalDTO updateAnimal(@PathVariable String animalName, @RequestBody AnimalDTO animalDTO);
 }

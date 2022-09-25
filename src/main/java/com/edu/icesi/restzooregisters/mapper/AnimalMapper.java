@@ -8,4 +8,5 @@ import org.mapstruct.Mapper;
 public interface AnimalMapper {
     Animal fromDTO(AnimalDTO animalDTO);
     AnimalDTO fromAnimal(Animal user);
+    Animal fromDTO(String animalName, AnimalDTO animalDTO);
 }

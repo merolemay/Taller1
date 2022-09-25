@@ -35,7 +35,7 @@ public class AnimalServiceImpl implements AnimalService {
         }
         animals.add(animal);
         animals.add(getAnimalById(animal.getFatherID(),false));
-        animals.add(getAnimalById(animal.getFatherID(),true));
+        animals.add(getAnimalById(animal.getMotherID(),true));
         return animals;
     }
 
@@ -56,6 +56,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public Animal createAnimal(Animal animal) {
         isRepeated(animal.getName());
+        validateCreation(animal);
         return animalRepository.save(animal);
     }
 
@@ -64,6 +65,47 @@ public class AnimalServiceImpl implements AnimalService {
         return StreamSupport.stream(animalRepository.findAll().spliterator(),false).collect(Collectors.toList());
     }
 
+    @Override
+    public Animal updateAnimal(Animal animal) {
+        Animal searchedAnimal = getAnimalByName(animal.getName());
+        if(searchedAnimal != null){
+            validateCreation(animal);
+            animal.setId(searchedAnimal.getId());
+            verificateNotNull(searchedAnimal,animal);
+            return animalRepository.save(animal);
+        }
+        throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_01,CODE_01.getMessage()));
+    }
+
+    private void verificateNotNull(Animal searched,Animal newAnimal){
+        if(newAnimal.getMotherID()==null){
+            newAnimal.setMotherID(searched.getMotherID());
+        }
+        if(newAnimal.getFatherID()==null){
+            newAnimal.setFatherID(searched.getFatherID());
+        }
+    }
+
+    private void validateCreation(Animal animal){ //False for male. True for female
+        parentsExists(animal.getMotherID(),true);
+        parentsExists(animal.getFatherID(),false);
+    }
+
+    private void parentsExists(UUID id,boolean sex){ //False for male. True for female
+        if(id != null){
+            Animal animal = getAnimalById(id,sex);
+            if(sex){
+                if(animal.equals(GENERIC_FEMALE_ANIMAL) || animal.getSex()=='M'){
+                    throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_08,CODE_08.getMessage()));
+                }
+            }
+            else{
+                if(animal.equals(GENERIC_MALE_ANIMAL)||animal.getSex()=='F'){
+                    throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_08,CODE_08.getMessage()));
+                }
+            }
+        }
+    }
 
 
     private boolean isRepeated(String name){
