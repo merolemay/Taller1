@@ -78,20 +78,20 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     private void validateCreation(Animal animal){ //False for male. True for female
-        parentsExists(animal.getMotherID(),true);
         parentsExists(animal.getFatherID(),false);
+        parentsExists(animal.getMotherID(),true);
     }
 
     private void parentsExists(UUID id,boolean sex){ //False for male. True for female
         if(id != null){
             Animal animal = getAnimalById(id,sex);
             if(sex){
-                if(animal.equals(GENERIC_FEMALE_ANIMAL) || animal.getSex()=='M'){
+                if(animal.equals(GENERIC_FEMALE_ANIMAL) || animal.getSex()!='F'){
                     throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_08,CODE_08.getMessage()));
                 }
             }
             else{
-                if(animal.equals(GENERIC_MALE_ANIMAL)||animal.getSex()=='F'){
+                if(animal.equals(GENERIC_MALE_ANIMAL)||animal.getSex()!='M'){
                     throw new AnimalException(HttpStatus.BAD_REQUEST, new AnimalError(CODE_08,CODE_08.getMessage()));
                 }
             }
@@ -121,15 +121,6 @@ public class AnimalServiceImpl implements AnimalService {
         }
         if(newAnimal.getSex()==' '){
             newAnimal.setSex(searched.getSex());
-        }
-        if(newAnimal.getAge()==0){
-            newAnimal.setAge(searched.getAge());
-        }
-        if(newAnimal.getHeight()==0){
-            newAnimal.setHeight(searched.getHeight());
-        }
-        if(newAnimal.getWeight()==0){
-            newAnimal.setWeight(searched.getWeight());
         }
         if(newAnimal.getArrivalDate()==null){
             newAnimal.setArrivalDate(searched.getArrivalDate());
