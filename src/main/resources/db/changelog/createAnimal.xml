@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="a83e7911-05e4-4c19-ac67-a250959691dd" author="Samuel_Hernandez">
+        <createTable tableName="ANIMAL">
+            <column name="id" type="UUID">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(60)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="sex" type="varchar(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight" type="numeric(12,4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="age" type="numeric(5,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length" type="numeric(12,4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="arrival_date" type="date">
+                <constraints nullable="false" checkConstraint="sysdate >= arrival_date"/>
+            </column>
+            <column name="father" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mother" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
