@@ -1,0 +1,11 @@
+
+Get specific individual
+
+GET localhost:8080/animals/cusumbo/Son
+    localhost:8080/animals/cusumbo/{cusumbo name}
+
+
+Get all individuals
+
+GET localhost:8080/animals/cusumbo
+
