@@ -6,12 +6,12 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -29,9 +29,10 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@ContextConfiguration
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
-public class AnimalIntegrationTest {
+public class AnimalIntegrationTestGetAnimal {
 
     private MockMvc mockMvc;
 
@@ -51,12 +52,12 @@ public class AnimalIntegrationTest {
     @SneakyThrows
     public void createAnimal (){
         String body = parseResourceToString("createAnimal.json");
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/animals")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/{animalName}")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body)).andExpect(status().isBadRequest())
                 .andReturn();
         AnimalDTO animalDTO = objectMapper.readValue(result.getResponse().getContentAsString(),AnimalDTO.class);
-        assertThat(animalDTO,hasProperty("name",is("juan")));
+        assertThat(animalDTO,hasProperty("name",is("duvan")));
     }
     @SneakyThrows
     private String parseResourceToString(String classpath){
